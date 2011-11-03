@@ -1,0 +1,333 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>
+	jQuery Finder
+</title><link rel="stylesheet" href="http://www.nazmulweb.com/sandbox/jFinder/css/default.css" type="text/css" media="screen" title="no title" charset="utf-8" />
+<link href="http://www.nazmulweb.com/sandbox/jFinder/css/ui.finder.css" rel="stylesheet" media="screen,print" type="text/css" />
+<link rel="stylesheet" href="http://www.nazmulweb.com/corejs/jQuery/ui-base/ui.all.css" type="text/css" media="screen" title="no title" charset="utf-8" />
+    <!--[if lt IE 8]>
+	<link href="css/ui.finder.ie.css" rel="stylesheet" media="screen" type="text/css" />
+<![endif]-->
+
+    <script type="text/javascript" src="http://www.nazmulweb.com/corejs/jQuery/jQuery.js"></script>
+
+    <script type="text/javascript" src="http://www.nazmulweb.com/corejs/jQuery/jquery.scrollTo-1.4.2-min.js"></script>
+
+    <script src="http://www.nazmulweb.com/corejs/jQuery/themeswitchertool.js" type="text/javascript" charset="utf-8"></script>
+
+    <script type="text/javascript" src="http://www.nazmulweb.com/corejs/jQuery/ui/ui.finder.js"></script>
+    
+    <link class="ui-theme" rel="Stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/cupertino/jquery-ui.css">
+
+    <style type="text/css">
+        a
+        {
+            color: blue;
+        }
+        .done
+        {
+            text-decoration: line-through;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(function() {
+        var debug = (window.console) ? window.console.log : function() { };
+        var initFinder = function() {
+                /*
+                * Initialise Finder
+                */
+                $('#finder').finder({
+                    title: 'jQuery Finder v0.6a',
+                    onRootReady: function(rootList, finderObj) {
+                        debug('Root ready', arguments)
+                    },
+                    onInit: function(finderObj) {
+
+                        debug('Finder initialised', arguments)
+
+                        $('.ui-finder-action-refresh').click(function() {
+                            $('[name="refresh"]').click();
+                        });
+
+
+                        $('.ui-finder-action-open').click(function() {
+                            $('[name="select"]').click();
+                        });
+
+                        $('.ui-finder-action-current').click(function() {
+                            $('[name="getCurrent"]').click();
+                        });
+
+                        $('.ui-finder-action-destroy').click(function() {
+                            $('[name="createFinder"]').click();
+                        });
+
+                    },
+                    onItemSelect: function(listItem, eventTarget, finderObject) {
+                        var anchor = $('a', listItem),
+				            href = anchor.attr('rel');
+
+                        // Debug is a function specified in Finder script for debugging purposes
+                        // Remove it if unnecessary
+                        debug('onItemSelect - URL: ', href)
+
+                        // By returning false, the url specified is not fetched
+                        // ie. Do not display new column if selected item is not an image
+                        if (href.indexOf('.jpg') == -1) { return false; }
+
+                    },
+                    onFolderSelect: function(listItem, eventTarget, finderObject) {
+                        var anchor = $('a', listItem),
+				            href = anchor.attr('rel');
+
+                        debug('onFolderSelect - URL: ', href)
+                    },
+                    onItemOpen: function(listItem, newColumn, finderObject) {
+                        var anchor = $('a', listItem),
+				            href = anchor.attr('href');
+
+                        debug('onItemOpen - Column source: ', newColumn.attr('data-finder-list-source'))
+                    },
+                    onFolderOpen: function(listItem, newColumn, finderObject) {
+                        var anchor = $('a', listItem),
+				            href = anchor.attr('href');
+
+                        debug('onFolderOpen - Column source: ', newColumn.attr('data-finder-list-source'))
+                    },
+                    toolbarActions: function() {
+                        return '\
+			<div class="ui-finder-button ui-state-default ui-corner-right ui-finder-action-refresh" title="Refresh">\
+				<span class="ui-icon ui-icon-refresh"/>\
+			</div>\
+			<div class="ui-finder-button ui-state-default ui-finder-action-open" title="Open ..">\
+				<span class="ui-icon ui-icon-folder-open"/>\
+			</div>\
+			<div class="ui-finder-button ui-state-default ui-finder-action-current ui-corner-left" title="Get current">\
+				<span class="ui-icon ui-icon-help"/>\
+			</div>\
+			<div class="ui-finder-button ui-state-default ui-finder-action-destroy ui-corner-all" title="Destroy">\
+				<span class="ui-icon ui-icon-closethick"/>\
+			</div>\
+			';
+                    }
+
+                });
+
+
+            };
+
+            $('[name="createFinder"]').toggle(function() {
+                initFinder();
+                $('button[disabled]').attr('disabled', false);
+                $(this).attr('data-code', $(this).next('code').text()).text('Destroy Finder');
+                $(this).next('code').text('$(selector).finder(\'destroy\')')
+            }, function() {
+                $('#finder').finder('destroy');
+                $('button').slice(1).attr('disabled', true);
+                $(this).text('Create Finder');
+                $(this).next('code').text($(this).attr('data-code'))
+            });
+
+            /*
+            * Some events to allow API interaction with buttons
+            * Not a part of Finder script, they just show how to interact with API
+            */
+            $('[name="getCurrent"]').click(function() {
+                var current = $('#finder').finder('current');
+                current = (current) ? current.attr('rel') : 'No item selected';
+                alert(current);
+            });
+
+
+            $('[name="select"]').click(function() {
+                var which = prompt('URL of item to select', $('a:first', '#finder').attr('rel'));
+                if (which && which.length > 0) { $('#finder').finder('select', which); }
+            });
+
+            $('[name="refresh"]').click(function() { $('#finder').finder('refresh'); });
+            $('[name="test"]').click(function() { test(); });
+            $('[name="test2"]').click(function() { test2(); });
+
+
+            $('[name="createFinder"]').click();
+
+
+            $('#switcher').themeswitcher();
+
+            /*
+            * A Click event to toggle the image preview, when viewing an image
+            * Not a part of Finder script 
+            */
+            $(document)
+	.unbind('click.FinderPreview') // Click event to handle file previews etc
+	.bind('click.FinderPreview', function(e) {
+	    var title = $(e.target);
+
+	    if (!title.hasClass('ui-finder-preview-heading')
+			&& title.parent('.ui-finder-preview-heading').length === 0)
+	    { return; }
+
+	    title = (title.hasClass('ui-finder-preview-heading'))
+					? title
+					: title.parent('.ui-finder-preview-heading');
+
+	    var image = title.siblings('.ui-finder-image'),
+			span = $('span', title);
+
+	    if (image.length != 1) { return; }
+
+	    if (image.is(':visible')) {
+	        image.slideUp();
+	        title.addClass('ui-finder-preview-heading-closed');
+	        span.removeClass('ui-icon-circle-triangle-s');
+	        span.addClass('ui-icon-circle-triangle-e');
+	    } else {
+	        image.slideDown();
+	        title.removeClass('ui-finder-preview-heading-closed');
+	        span.removeClass('ui-icon-circle-triangle-e');
+	        span.addClass('ui-icon-circle-triangle-s');
+	    };
+
+	    return false;
+	});
+
+
+        });
+        var test = function(i) {
+            var finder = $('#finder'),
+		        intervals = [],
+		        interval = i || 500;
+
+            for (var i = 1; i < 6; i++) { intervals.push(interval * i); };
+
+            finder.finder('select', 'html/level2.html');
+
+            setTimeout(function() {
+                finder.finder('select', 'html/somefile.html?0.jpg');
+            }, intervals[0]);
+
+            setTimeout(function() {
+                finder.finder('select', 'html/level2.html');
+            }, intervals[1]);
+
+            setTimeout(function() {
+                finder.finder('select', 'html/somefile.html?5.jpg');
+            }, intervals[2]);
+
+            setTimeout(function() {
+                finder.finder('select', 'html/level3.html');
+            }, intervals[3]);
+
+            setTimeout(function() {
+                finder.finder('select', 'html/somefile.html?0.jpg');
+            }, intervals[4]);
+
+        };
+        var test2 = function(i) {
+            var finder = $('#finder'),
+		urls = [
+			'html/level2.html',
+			'html/level3.html',
+			'html/level4.html',
+			'html/level5.html?33',
+			'html/somefile.html?0939fjkl.jpg'
+		];
+
+            finder.finder('select', urls);
+        };
+</script>
+
+</head>
+
+<body>
+    <h1>
+        jQuery Finder .:. Mac OS X-like Column-view Navigation (alternative to treeview)</h1>
+    <hr />
+
+    <br>
+    <ol id="finder">
+        <li class="ui-finder-file"><a href="html/somefile.html?0.jpg" title="some title for this image">
+
+            Lorem ipsum dolor sit amet</a></li>
+        <li class="ui-finder-file"><a href="html/somefile.html?1">Consectetur adipiscing elit</a></li>
+        <li><a>Nam auctor, lectus vulputate</a>
+            <!-- When sublevels are specified in source, like in this item,
+				you don't have to specify if each item is a file or folder.
+			Also, you don't have to specify a URL for the anchor element
+			but THE ANCHOR ELEMENT IS STILL REQUIRED
+		 -->
+            <ul>
+                <li><a>MOENIG</a></li>
+                <li><a href="html/somefile.html?4324432428.jpg">Some Imaged asd as</a></li>
+
+                <li><a>Some Folder</a>
+                    <ul>
+                        <li><a href="html/somefile.html?7321343">Some fileasd asd asdasd a</a></li>
+                        <li><a href="html/somefile.html?433123248.jpg">Some Imaged asd as</a></li>
+                        <li><a href="html/level4.html?fsdfs">Some file</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </li>
+        <li class="ui-finder-file"><a href="html/somefile.html?2">Consequat luctus</a></li>
+        <li class="ui-finder-file"><a href="html/somefile.html?3">Nisl enim eleifend sem</a></li>
+        <li class="ui-finder-folder"><a href="html/level2.html">Nam auctor, lectus vulputate</a></li>
+    </ol>
+    <br>
+
+    <hr>
+    <div style="float: left; width: 45%">
+        <h3>
+            Public methods</h3>
+        <ol>
+            <li>
+                <button name="createFinder">
+                    Create finder</button>
+
+                <code>$(selector).finder([options])</code></li>
+            <li>
+                <button name="select" disabled>
+                    Select Item</button>
+                <code>$(selector).finder('select',URL || DOM or jQuery object || Array of URLs)</code></li>
+            <li>
+                <button name="getCurrent" disabled>
+
+                    Get Current</button>
+                <code>$(selector).finder('current')</code></li>
+            <li>
+                <button name="refresh" disabled>
+                    Refresh Current</button>
+                <code>$(selector).finder('refresh')</code></li>
+        </ol>
+
+        You can also use the toolbar buttons for these actions.
+    </div>
+    <div style="float: right; width: 45%">
+        <h3>
+            Testing methods</h3>
+        <p>
+            Just some methods to test the queue. Create finder before using testing methods</p>
+        <ol>
+
+            <li>
+                <button name="test">
+                    Interval Test</button>
+                <code>Calls 'select' method 6 times at an interval of 500ms</code></li>
+            <li>
+                <button name="test2">
+                    Queue Test</button>
+
+                <code>Calls 'select' method for an array of URLs. Useful if you want to select an Item
+                    or Folder which is multiple levels down.</code></li>
+        </ol>
+    </div>
+    <hr />
+    <h3>
+        Code used for this demo</h3>
+
+
+
+</body>
+</html>
