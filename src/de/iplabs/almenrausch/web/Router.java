@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 public class Router 
 {
 	/**
-	 * Forward to the view TAsks jsp. 
+	 * Forward to the view Tasks jsp. 
 	 * 
 	 * @param req The request
 	 * @param resp The response
@@ -24,7 +24,7 @@ public class Router
 	 */
 	public static void goToViewTasks(final HttpServletRequest req, final HttpServletResponse resp) throws IOException
 	{
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/viewTasks.jsp"); 
+		final RequestDispatcher dispatcher = req.getRequestDispatcher("/viewTasks.jsp"); 
 		try 
 		{
 			dispatcher.forward(req, resp);
