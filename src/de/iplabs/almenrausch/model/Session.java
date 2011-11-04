@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class Session implements Serializable
 {
 	/**
@@ -82,5 +84,17 @@ public class Session implements Serializable
 		double sumHH = effort - sumDD * 8; 
 		
 		return sumDD+" Tag(e) "+new BigDecimal(sumHH).setScale(1, BigDecimal.ROUND_HALF_UP)+ " Stunde(n)"; 
+	}
+	
+	public static Session getCurrentSession (final HttpServletRequest request)
+	{
+		if (request == null) throw new IllegalArgumentException("Argument request must not be null!"); 
+		Session session = (Session) request.getSession().getAttribute("session"); 
+		if (session == null) 
+		{
+			session = new Session(); 
+			request.getSession().setAttribute("session", session); 
+		}
+		return session;
 	}
 }

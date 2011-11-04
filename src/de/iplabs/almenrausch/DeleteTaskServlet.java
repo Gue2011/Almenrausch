@@ -10,13 +10,22 @@ import javax.servlet.http.HttpServletResponse;
 import de.iplabs.almenrausch.persistent.TaskDao;
 import de.iplabs.almenrausch.web.Router;
 
+/**
+ * Servlet to delete tasks from db. 
+ * 
+ * @author gue
+ */
 @SuppressWarnings("serial")
-public class DeleteTaskServlet extends HttpServlet {
-	Logger log = Logger.getLogger(DeleteTaskServlet.class.getName());
+public class DeleteTaskServlet extends HttpServlet 
+{
+	// A logger. 
+	private static final Logger log = Logger.getLogger(DeleteTaskServlet.class.getName());
 
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException {
-		
+	/**
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException 
+	{
 		final String id = req.getParameter("id"); 
 		final String week = req.getParameter("week"); 
 	
@@ -25,9 +34,8 @@ public class DeleteTaskServlet extends HttpServlet {
 		
 		log.info("Id: " + req.getParameter("id"));
 		final Long taskId = Long.valueOf(id); ; 
-	
 		
-		TaskDao dao = new TaskDao(); 
+		final TaskDao dao = new TaskDao(); 
 		final boolean result = dao.deleteTask(taskId); 
 		
 		if (result) log.info("Task "+id+" has been deleted!"); 

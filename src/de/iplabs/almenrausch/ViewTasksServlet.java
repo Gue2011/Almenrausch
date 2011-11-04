@@ -13,27 +13,30 @@ import de.iplabs.almenrausch.model.MantisTask;
 import de.iplabs.almenrausch.persistent.TaskDao;
 import de.iplabs.almenrausch.web.Router;
 
+/**
+ * The servlet that prepares the view for the viewTasks.jsp. 
+ * Not really MVC-conform, but acceptable here. 
+ * 
+ * @author gue
+ */
 @SuppressWarnings("serial")
-public class ViewTasksServlet extends HttpServlet {
+public class ViewTasksServlet extends HttpServlet 
+{
+	// The logger for this class. 
 	Logger log = Logger.getLogger(ViewTasksServlet.class.getName());
 
-	public void doGet(final HttpServletRequest req, final HttpServletResponse resp)
-			throws IOException {
-
-		log.info("Going to ViewTasksServlet");
-		
+	/**
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	public void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws IOException 
+	{
 		final String weekString = req.getParameter("week"); 
 		int week = weekString == null ? 0 : Integer.parseInt(weekString); 
 		
-		TaskDao dao = new TaskDao(); 
-		List<MantisTask> tasks = dao.getTasksByCalendarWeek(week); 
-		log.info(""); 
-		Session session = (Session) req.getSession().getAttribute("session"); 
-		if (session == null) 
-		{
-			session = new Session(); 
-			req.getSession().setAttribute("session", session); 
-		}
+		final TaskDao dao = new TaskDao(); 
+		final List<MantisTask> tasks = dao.getTasksByCalendarWeek(week); 
+		
+		final Session session = Session.getCurrentSession(req); 
 		session.setCurrentTasks(tasks); 
 		
 		Router.goToViewTasks(req, resp); 
