@@ -16,25 +16,25 @@ public class LoginFilter implements Filter
 			FilterChain chain) throws IOException, ServletException 
 	{
 		
-//		HttpServletRequest req = (HttpServletRequest) request; 
-//		if ("/".equals(req.getRequestURI())) 
-//		{
-//			chain.doFilter(request, response); 
-//			return; 
-//		}
-//		
-//		if (req.getRequestURI().contains("byebye")) 
-//		{
-//			chain.doFilter(request, response); 
-//			return; 
-//		}
-//		
-//		Object login = req.getSession().getAttribute("login"); 
-//		if (!req.getRequestURI().contains("login") && login == null)
-//			throw new IllegalStateException("Unallowed visitor! Please log in to authentify!"); 
-//		
-//		if (!req.getRequestURI().contains("login") && (Boolean)login == false)
-//			throw new IllegalStateException("Unallowed visitor! Please log in to authentify!"); 
+		HttpServletRequest req = (HttpServletRequest) request; 
+		if ("/".equals(req.getRequestURI())) 
+		{
+			chain.doFilter(request, response); 
+			return; 
+		}
+		
+		if (req.getRequestURI().contains("byebye")) 
+		{
+			chain.doFilter(request, response); 
+			return; 
+		}
+		
+		Object login = req.getSession().getAttribute("login"); 
+		if (!req.getRequestURI().contains("login") && login == null)
+			throw new IllegalStateException("Unallowed visitor! Please log in to authentify!"); 
+		
+		if (!req.getRequestURI().contains("login") && (Boolean)login == false)
+			throw new IllegalStateException("Unallowed visitor! Please log in to authentify!"); 
 		
 		chain.doFilter(request, response); 
 		

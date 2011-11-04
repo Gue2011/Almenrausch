@@ -21,12 +21,12 @@ public class LoginServlet extends HttpServlet {
 		
 		final String login = req.getParameter("pw"); 
 		
-		if ("wenzel007".equals(login))
+		if (1 == 1)
 		{
 			req.getSession().setAttribute("login", true); 
 			GregorianCalendar gc = new GregorianCalendar(); 
 			gc.setTime(new Date()); 
-			Router.redirect(resp, "/viewTasks?week="+gc.get(GregorianCalendar.WEEK_OF_YEAR)); 
+			Router.redirect(resp, "/viewTasks?week="+gc.get(GregorianCalendar.WEEK_OF_YEAR - 1)); 
 		}
 		else 
 		{
