@@ -10,13 +10,23 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Checks out if user is logged in. Application allowed any action but the proper 
+ * login only for people who know the password. 
+ *  
+ * @author gue
+ */
 public class LoginFilter implements Filter 
 {
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException 
+	/**
+	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
+	 */
+	public void doFilter(final ServletRequest request, 
+						 final ServletResponse response,
+						 final FilterChain chain) throws IOException, ServletException 
 	{
 		
-		HttpServletRequest req = (HttpServletRequest) request; 
+		final HttpServletRequest req = (HttpServletRequest) request; 
 		if ("/".equals(req.getRequestURI())) 
 		{
 			chain.doFilter(request, response); 
@@ -29,7 +39,7 @@ public class LoginFilter implements Filter
 			return; 
 		}
 		
-		Object login = req.getSession().getAttribute("login"); 
+		final Object login = req.getSession().getAttribute("login"); 
 		if (!req.getRequestURI().contains("login") && login == null)
 			throw new IllegalStateException("Unallowed visitor! Please log in to authentify!"); 
 		
@@ -37,12 +47,17 @@ public class LoginFilter implements Filter
 			throw new IllegalStateException("Unallowed visitor! Please log in to authentify!"); 
 		
 		chain.doFilter(request, response); 
-		
 	}
 
+	/**
+	 * @see javax.servlet.Filter#destroy()
+	 */
 	@Override
 	public void destroy() { }
 
+	/**
+	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
+	 */
 	@Override
 	public void init(FilterConfig arg0) throws ServletException { }
 }

@@ -1,6 +1,7 @@
 package de.iplabs.almenrausch.web;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -11,22 +12,22 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * App can only be used by Chrome users due to incomplete HTML5 implementations of other browsers. 
+ * Filter that logs out all calls to servlet infrastructure of this app to be able
+ * to see the uses way through the application. 
  * 
  * @author gue
  */
-public class ChromeFilter implements Filter 
+public class RoutingFilter implements Filter 
 {
-	/**
-	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
-	 */
+	// Logger.
+	private static final Logger log = Logger.getLogger(RoutingFilter.class.getName()); 
+	
 	public void doFilter(final ServletRequest request, 
 						 final ServletResponse response,
 						 final FilterChain chain) throws IOException, ServletException 
 	{
 		final HttpServletRequest req = (HttpServletRequest) request; 
-		final String userAgent = (req.getHeader("User-Agent")); 
-		if (!userAgent.contains("Chrome")) throw new IllegalStateException("Application can only be used by Chrome Users!"); 
+		log.info("Called resource: "+req.getRequestURI()); 
 		chain.doFilter(request, response); 
 	}
 

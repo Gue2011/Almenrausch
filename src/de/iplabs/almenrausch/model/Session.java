@@ -89,6 +89,7 @@ public class Session implements Serializable
 	public static Session getCurrentSession (final HttpServletRequest request)
 	{
 		if (request == null) throw new IllegalArgumentException("Argument request must not be null!"); 
+		
 		Session session = (Session) request.getSession().getAttribute("session"); 
 		if (session == null) 
 		{

@@ -7,8 +7,21 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Encapsulates all routing with the request dispatcher, to keep servlets free 
+ * from boilerplate that brings the servlet api. 
+ * 
+ * @author gue
+ */
 public class Router 
 {
+	/**
+	 * Forward to the view TAsks jsp. 
+	 * 
+	 * @param req The request
+	 * @param resp The response
+	 * @throws IOException Is thrown if exceptional things happens. 
+	 */
 	public static void goToViewTasks(final HttpServletRequest req, final HttpServletResponse resp) throws IOException
 	{
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/viewTasks.jsp"); 
@@ -22,8 +35,15 @@ public class Router
 		} 
 	}
 	
+	/**
+	 * Do a redirect to the given target. 
+	 * 
+	 * @param resp The response. 
+	 * @param target The target resource as a {@link String}
+	 * @throws IOException Is thrown if exceptional things happens.
+	 */
 	public static void redirect(final HttpServletResponse resp, final String target) throws IOException
 	{
-			resp.sendRedirect(target);
+		resp.sendRedirect(target);
 	}
 }
