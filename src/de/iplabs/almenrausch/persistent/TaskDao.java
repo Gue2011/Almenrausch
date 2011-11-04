@@ -1,11 +1,14 @@
 package de.iplabs.almenrausch.persistent;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
+import com.google.appengine.repackaged.com.google.common.base.Predicate;
+import com.google.appengine.repackaged.com.google.common.collect.Collections2;
+import com.google.appengine.repackaged.com.google.common.collect.Lists;
 
 import de.iplabs.almenrausch.model.MantisTask;
 
@@ -64,18 +67,19 @@ public class TaskDao {
 			this.pm.refreshAll(); 
 
 			@SuppressWarnings("unchecked")
-			List<MantisTask> tasks = (List<MantisTask>) this.pm.newQuery(query).execute();
+			final List<MantisTask> tasks = (List<MantisTask>) this.pm.newQuery(query).execute();
 		
-			final List<MantisTask> target = new ArrayList<MantisTask>(); 
-			
-			for (final MantisTask t : tasks)
+			final Collection<MantisTask> tc = Collections2.filter(tasks, new Predicate<MantisTask>() 
 			{
-				if (t.getCalenderWeek() == week) target.add(t); 
-			}
-			
-			this.pm.detachCopyAll(target); 
-			
-			return target; 
+				@Override
+				public boolean apply(final MantisTask task) 
+				{
+					return week == task.getCalenderWeek();
+				}
+			}); 
+		
+			this.pm.detachCopyAll(tc); 
+			return Lists.newArrayList(tc); 
 		}
 		finally 
 		{

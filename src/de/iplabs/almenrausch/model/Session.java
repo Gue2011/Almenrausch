@@ -3,10 +3,21 @@ package de.iplabs.almenrausch.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.appengine.repackaged.com.google.common.base.Predicate;
+import com.google.appengine.repackaged.com.google.common.collect.Collections2;
+import com.google.appengine.repackaged.com.google.common.collect.Lists;
+
+/**
+ * Container with some service functionality for the front end that encapsulates
+ * all stuff that is constantly stored for one users' session. 
+ * 
+ * @author gue
+ */
 public class Session implements Serializable
 {
 	/**
@@ -14,35 +25,54 @@ public class Session implements Serializable
 	 */
 	private static final long serialVersionUID = 4653592975794575821L;
 	
+	/** All current mantis tasks. **/
 	private List<MantisTask> currentTasks;
+	
+	/**
+	 * Hidden constructor. 
+	 */
+	private Session(){ }
 
 	/**
-	 * @return the currentTasks
+	 * @return all tasks ordered by Mšnig.
 	 */
 	public List<MantisTask> getCurrentMoenigTasks() 
 	{
-		final List<MantisTask> moenig = new ArrayList<MantisTask>(); 
-		for (MantisTask t : this.currentTasks) 
-		{
-			if ("Fuji".equals(t.getPayer())) moenig.add(t); 
-		}
-		return moenig;
+		return getTasksByStringPredicate("Fuji"); 
 	}
 	
+	/**
+	 * @return all tasks ordered by Direkt payers.
+	 */
 	public List<MantisTask> getCurrentDirectTasks() 
 	{
-		final List<MantisTask> direct = new ArrayList<MantisTask>(); 
-		for (MantisTask t : this.currentTasks) 
+		return getTasksByStringPredicate("Direkt"); 
+	}
+	
+	/**
+	 * @param predicate May be 'Fuji' or 'Direkt'
+	 * @return The Tasks that belong to the respective target group. 
+	 */
+	private List<MantisTask> getTasksByStringPredicate (final String predicate)
+	{
+		if (predicate == null) throw new IllegalArgumentException("Argument predicate must not be null!");
+		
+		final Collection<MantisTask> result = Collections2.filter(this.currentTasks, new Predicate<MantisTask>() 
 		{
-			if ("Direkt".equals(t.getPayer())) direct.add(t); 
-		}
-		return direct;
+			@Override
+			public boolean apply(MantisTask mt) 
+			{
+				return (predicate.equals(mt.getPayer()));
+			}
+		});
+		return Lists.newArrayList(result); 
 	}
 
 	/**
 	 * @param currentTasks the currentTasks to set
 	 */
-	public void setCurrentTasks(final List<MantisTask> currentTasks) {
+	public void setCurrentTasks(final List<MantisTask> currentTasks) 
+	{
 		if (this.currentTasks == null) this.currentTasks = new ArrayList<MantisTask>(); 
 		this.currentTasks.clear(); 
 		for (final MantisTask t : currentTasks)
@@ -51,11 +81,17 @@ public class Session implements Serializable
 		}
 	} 
 	
+	/**
+	 * @return The number of all tasks. 
+	 */
 	public int getNumberOfTasks()
 	{
 		return this.currentTasks.size(); 
 	}
 	
+	/**
+	 * @return The sum of all Mšnig-Tasks as a formatted string. 
+	 */
 	public String getSumOfMoenigTasks()
 	{
 		double sum = 0.0; 
@@ -67,6 +103,9 @@ public class Session implements Serializable
 		return toOutputFormat(sum); 
 	}
 
+	/**
+	 * @return The sum of all Direkt-Tasks as a formatted string. 
+	 */
 	public String getSumOfDirectTasks()
 	{
 		double sum = 0.0; 
@@ -78,6 +117,10 @@ public class Session implements Serializable
 		return toOutputFormat(sum); 
 	}
 	
+	/**
+	 * @param effort A value that is meant as person hours as a double-value. 
+	 * @return A formatted string containing days and hours, thus something like '2 Tag(e) 4.5 Stunde(n)'
+	 */
 	private static String toOutputFormat (final double effort)
 	{
 		double sumDD = Math.floor(effort/8.0);
@@ -85,7 +128,11 @@ public class Session implements Serializable
 		
 		return sumDD+" Tag(e) "+new BigDecimal(sumHH).setScale(1, BigDecimal.ROUND_HALF_UP)+ " Stunde(n)"; 
 	}
-	
+
+	/**
+	 * @param request The current {@link HttpServletRequest}
+	 * @return The current session if there is already one, creates a new instance if not. 
+	 */
 	public static Session getCurrentSession (final HttpServletRequest request)
 	{
 		if (request == null) throw new IllegalArgumentException("Argument request must not be null!"); 
