@@ -27,7 +27,7 @@ public class LoginServlet extends HttpServlet
 	{
 		final String login = req.getParameter("pw"); 
 		
-		log.info("Enter some password detenction in produc tion environments!"); 
+		log.info("Enter some password detection in production environments!"); 
 		// Add something like "somePassword".equals(login)
 		if (1 == 1)
 		{
