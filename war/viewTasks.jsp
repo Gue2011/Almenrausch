@@ -21,6 +21,10 @@ td {
 	font-size: 12px; 
 }
 
+.floete {
+	float:left; 
+}
+
 .addbutton {
 	position: relative; 
 	float:left; 
@@ -29,6 +33,7 @@ td {
 .logoutbutton {
 	position: relative; 
 	left: 10px; 
+	float:left; 
 }
 
 .clear {
@@ -147,13 +152,14 @@ td {
 	</c:choose>
 	<br />
 	
-	<div id="buttonz">
-		<div class="addbutton">
-			<a href="#">Task hinzufuegen</a>
-		</div>
-		<div class="logoutbutton">
-			<a href="#">Ausloggen</a>
-		</div>
+	<div class="floete"></div>
+	
+	<div class="addbutton">
+		<a href="#">Task hinzufuegen</a>
 	</div>
+	<div class="logoutbutton">
+		<a href="#">Ausloggen</a>
+	</div>
+	<div class="clear"></div>
 </body>
 </html>
