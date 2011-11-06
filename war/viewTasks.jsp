@@ -21,10 +21,6 @@ td {
 	font-size: 12px; 
 }
 
-.floete {
-	float:left; 
-}
-
 .addbutton {
 	position: relative; 
 	float:left; 
@@ -36,9 +32,6 @@ td {
 	float:left; 
 }
 
-.clear {
-	clear:both; 
-}
 
 
 </style>
@@ -83,8 +76,17 @@ td {
 					<th></th>
 				</tr>
 				<c:forEach items="${sessionScope.session.currentMoenigTasks}"
-					var="task">
-					<tr class="isCorrect_">
+					var="task"
+					varStatus="status">
+					<c:choose>
+						<c:when test="${status.count%2==0}">
+							<tr class="odd">
+						</c:when>
+						<c:otherwise>
+							<tr class="even">
+						</c:otherwise>
+					</c:choose>
+					
 						<td>${task.taskId}</td>
 						<td>${task.description}</td>
 						<td>${task.effort}</td>
@@ -94,7 +96,7 @@ td {
 							href="/updateTask?id=${task.taskId}&week=${param.week}">Aendern</a>
 						</td>
 						<td><a
-							href="/deleteTask?id=${task.taskId}&week=${param.week}">L�schen</a>
+							href="/deleteTask?id=${task.taskId}&week=${param.week}">Loeschen</a>
 						</td>
 					</tr>
 				</c:forEach>
@@ -128,8 +130,16 @@ td {
 					<th></th>
 				</tr>
 				<c:forEach items="${sessionScope.session.currentDirectTasks}"
-					var="task">
-					<tr class="isCorrect_">
+					var="task"
+					varStatus="status">
+					<c:choose>
+						<c:when test="${status.count%2==0}">
+							<tr class="odd">
+						</c:when>
+						<c:otherwise>
+							<tr class="even">
+						</c:otherwise>
+					</c:choose>
 						<td>${task.taskId}</td>
 						<td>${task.description}</td>
 						<td>${task.effort}</td>

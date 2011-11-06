@@ -18,11 +18,7 @@
 		#description {
 			width: auto; 
 		}
-		
-		.floete {
-			float:left; 
-		}
-		
+	
 		.savebutton {
 			position: relative; 
 			float:left; 
@@ -32,10 +28,6 @@
 			position: relative; 
 			left: 10px; 
 			float:left; 
-		}
-		
-		.clear {
-			clear:both; 
 		}
 		
 	</style>
