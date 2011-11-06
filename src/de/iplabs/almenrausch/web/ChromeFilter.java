@@ -24,9 +24,9 @@ public class ChromeFilter implements Filter
 						 final ServletResponse response,
 						 final FilterChain chain) throws IOException, ServletException 
 	{
-		final HttpServletRequest req = (HttpServletRequest) request; 
-		final String userAgent = (req.getHeader("User-Agent")); 
-		if (!userAgent.contains("Chrome")) throw new IllegalStateException("Application can only be used by Chrome Users!"); 
+//		final HttpServletRequest req = (HttpServletRequest) request; 
+//		final String userAgent = (req.getHeader("User-Agent")); 
+//		if (!userAgent.contains("Chrome")) throw new IllegalStateException("Application can only be used by Chrome Users!"); 
 		chain.doFilter(request, response); 
 	}
 

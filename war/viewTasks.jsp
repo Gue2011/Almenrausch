@@ -16,18 +16,38 @@ td {
 	text-align: center;
 	width: 100px;
 }
+
+#view-tasks .ui-widget {
+	font-size: 12px; 
+}
+
+.addbutton {
+	position: relative; 
+	float:left; 
+}
+
+.logoutbutton {
+	position: relative; 
+	left: 10px; 
+}
+
+.clear {
+	clear:both; 
+}
+
+
 </style>
 
 <script>
 	$(function() {
-		$("input:submit, a, button", ".demo").button();
-		$("a", ".demo").click(function() {
+		$("input:submit, a, button", ".addbutton").button();
+		$("a", ".addbutton").click(function() {
 			window.location = '/addTask.jsp';
 			return false;
 		});
 
-		$("input:submit, a, button", ".demo2").button();
-		$("a", ".demo2").click(function() {
+		$("input:submit, a, button", ".logoutbutton").button();
+		$("a", ".logoutbutton").click(function() {
 			window.location = '/logout';
 			return false;
 		});
@@ -36,7 +56,7 @@ td {
 
 </head>
 
-<body>
+<body id="view-tasks">
 	<h1>Übersicht: KW ${param.week}</h1>
 
 	<c:choose>
@@ -126,13 +146,14 @@ td {
 		</c:otherwise>
 	</c:choose>
 	<br />
-
-	<div class="demo">
-		<a href="#">Task hinzufügen</a>
+	
+	<div id="buttonz">
+		<div class="addbutton">
+			<a href="#">Task hinzufuegen</a>
+		</div>
+		<div class="logoutbutton">
+			<a href="#">Ausloggen</a>
+		</div>
 	</div>
-	<div class="demo2">
-		<a href="#">Ausloggen</a>
-	</div>
-
 </body>
 </html>
