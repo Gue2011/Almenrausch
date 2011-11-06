@@ -1,5 +1,12 @@
 body {
-	font-family: Arial; 
+	font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif; 
 	margin: 0px auto; width: 1000px;
-	}
-	
+	font-size: 13px; 
+}
+
+
+h1 { font-size:22px; }
+
+h2 { font-size:17px; }
+
+h3 { font-size:15px; }

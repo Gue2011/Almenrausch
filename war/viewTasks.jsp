@@ -5,7 +5,7 @@
 <html>
 <head>
 
-<jsp:include page="jqueryui.jsp"></jsp:include>
+<jsp:include page="imports.jsp"></jsp:include>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>View tasks for kw ${param.week}</title>
 
@@ -62,16 +62,16 @@ td {
 </head>
 
 <body id="view-tasks">
-	<h1>Übersicht: KW ${param.week}</h1>
+	<h1>Uebersicht: KW ${param.week}</h1>
 
 	<c:choose>
 		<c:when test="${empty sessionScope.session.currentMoenigTasks}">
-			<h3>Bisher kein Grundrauschen für König Mönig in KW
+			<h3>Bisher kein Grundrauschen fuer Koenig Moenig in KW
 				${param.week} geplant.</h3>
 		</c:when>
 
 		<c:otherwise>
-			<h2>König Mönig Grundrauschen</h2>
+			<h2>Koenig Moenig Grundrauschen</h2>
 			<table border="0">
 				<tr>
 					<th>ID</th>
@@ -89,12 +89,12 @@ td {
 						<td>${task.description}</td>
 						<td>${task.effort}</td>
 						<td>${task.dateString}</td>
-						<td>MÖNIG</td>
+						<td>MOENIG</td>
 						<td><a
-							href="/updateTask?id=${task.taskId}&week=${param.week}">Ändern</a>
+							href="/updateTask?id=${task.taskId}&week=${param.week}">Aendern</a>
 						</td>
 						<td><a
-							href="/deleteTask?id=${task.taskId}&week=${param.week}">Löschen</a>
+							href="/deleteTask?id=${task.taskId}&week=${param.week}">Lï¿½schen</a>
 						</td>
 					</tr>
 				</c:forEach>
@@ -111,7 +111,7 @@ td {
 
 	<c:choose>
 		<c:when test="${empty sessionScope.session.currentDirectTasks}">
-			<h3>Bisher kein Grundrauschen für die Direktkunden in KW
+			<h3>Bisher kein Grundrauschen fuer die Direktkunden in KW
 				${param.week} geplant.</h3>
 		</c:when>
 
@@ -136,10 +136,10 @@ td {
 						<td>${task.dateString}</td>
 						<td>DIREKTKUNDEN</td>
 						<td><a
-							href="/updateTask?id=${task.taskId}&week=${param.week}">Ändern</a>
+							href="/updateTask?id=${task.taskId}&week=${param.week}">Aendern</a>
 						</td>
 						<td><a
-							href="/deleteTask?id=${task.taskId}&week=${param.week}">Löschen</a>
+							href="/deleteTask?id=${task.taskId}&week=${param.week}">Loeschen</a>
 						</td>
 					</tr>
 				</c:forEach>
