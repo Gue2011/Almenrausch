@@ -65,10 +65,21 @@ td {
 		return false;
 	});
 	
-	$("#yesno").easyconfirm({locale: { title: 'Select Yes or No', button: ['No','Yes']}});
-	$("#yesno").click(function() {
-		alert("You clicked yes");
-	});
+	<c:forEach items="${sessionScope.session.currentMoenigTasks}" var="task" varStatus="status">
+		$("#confirm_M_${status.count}").easyconfirm({locale: { title: 'Please confirm deletion of task '+${task.taskId}+' from db ...', button: ['Keep','Delete']}});
+		$("#confirm_M_${status.count}").click(function() {
+			window.location = '/deleteTask?id=${task.taskId}&week=${param.week}';
+		});
+	</c:forEach>		
+
+	<c:forEach items="${sessionScope.session.currentDirectTasks}" var="task" varStatus="status">
+		$("#confirm_D_${status.count}").easyconfirm({locale: { title: 'Please confirm deletion of task '+${task.taskId}+' from db ...', button: ['Keep','Delete']}});
+		$("#confirm_D_${status.count}").click(function() {
+			window.location = '/deleteTask?id=${task.taskId}&week=${param.week}';
+		});
+	</c:forEach>		
+	
+
 });
 </script>
 
@@ -115,7 +126,7 @@ td {
 						<td><a
 							href="/updateTask?id=${task.taskId}&week=${param.week}">Aendern</a>
 						</td>
-						<td><button id="opener">Loeschen?</button>
+						<td><a href="#" id="confirm_M_${status.count}">Loeschen?</a>
 						</td>
 					</tr>
 				</c:forEach>
@@ -167,8 +178,7 @@ td {
 						<td><a
 							href="/updateTask?id=${task.taskId}&week=${param.week}">Aendern</a>
 						</td>
-						<td><a
-							href="/deleteTask?id=${task.taskId}&week=${param.week}">Loeschen</a>
+						<td><a href="#" id="confirm_D_${status.count}">Loeschen?</a>
 						</td>
 					</tr>
 				</c:forEach>
@@ -191,7 +201,6 @@ td {
 	</div>
 	<div class="clear"></div>
 	
-	<a href="#" id="yesno">Normal test with yes and no</a>
 	
 </body>
 </html>
