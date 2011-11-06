@@ -4,3 +4,4 @@
 
 <script type="text/javascript" src="js/jquery-ui/js/jquery-min.js"></script>
 <script type="text/javascript" src="js/jquery-ui/js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/jquery-ui/js/easy-confirm.js"></script>

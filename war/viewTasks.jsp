@@ -50,6 +50,26 @@ td {
 			return false;
 		});
 	});
+	
+	$(document).ready(function() {
+	var $dialog = $('<div></div>')
+		.html('This dialog will show every time!')
+		.dialog({
+			autoOpen: false,
+			title: 'Basic Dialog'
+		});
+
+	$('#opener').click(function() {
+		$dialog.dialog('open');
+		// prevent the default action, e.g., following a link
+		return false;
+	});
+	
+	$("#yesno").easyconfirm({locale: { title: 'Select Yes or No', button: ['No','Yes']}});
+	$("#yesno").click(function() {
+		alert("You clicked yes");
+	});
+});
 </script>
 
 </head>
@@ -95,8 +115,7 @@ td {
 						<td><a
 							href="/updateTask?id=${task.taskId}&week=${param.week}">Aendern</a>
 						</td>
-						<td><a
-							href="/deleteTask?id=${task.taskId}&week=${param.week}">Loeschen</a>
+						<td><button id="opener">Loeschen?</button>
 						</td>
 					</tr>
 				</c:forEach>
@@ -171,5 +190,8 @@ td {
 		<a href="#">Ausloggen</a>
 	</div>
 	<div class="clear"></div>
+	
+	<a href="#" id="yesno">Normal test with yes and no</a>
+	
 </body>
 </html>
