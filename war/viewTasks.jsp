@@ -9,7 +9,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>View tasks for kw ${param.week}</title>
 
-<link rel="stylesheet" type="text/css" href="styles.css">
+
 
 <style type="text/css">
 td {
