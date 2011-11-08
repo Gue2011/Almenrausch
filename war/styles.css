@@ -27,3 +27,7 @@ h3 { font-size:15px; }
 .even {
 	background-color: #CCCCCC; 
 }
+
+td {
+	padding: 7px; 	
+}

@@ -34,7 +34,8 @@ public class LoginServlet extends HttpServlet
 			req.getSession().setAttribute("login", true); 
 			final GregorianCalendar gc = new GregorianCalendar(); 
 			gc.setTime(new Date()); 
-			Router.redirect(resp, "/viewTasks?week="+gc.get(GregorianCalendar.WEEK_OF_YEAR - 1)); 
+			
+			Router.redirect(resp, "/viewTasks?week="+(gc.get(GregorianCalendar.WEEK_OF_YEAR))); 
 		}
 		else 
 		{
