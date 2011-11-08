@@ -51,4 +51,24 @@ public class SessionTest
 		Assert.assertEquals(2, this.session.getCurrentMoenigTasks().size()); 
 		Assert.assertEquals(1, this.session.getCurrentDirectTasks().size()); 
 	}
+	
+	@Test
+	public void testFoldingOfList()
+	{
+		MantisTask t1 = Mockito.mock(MantisTask.class); 
+		Mockito.when(t1.getPayer()).thenReturn("Direkt"); 
+
+		MantisTask t2 = Mockito.mock(MantisTask.class); 
+		Mockito.when(t2.getPayer()).thenReturn("Fuji"); 
+
+		MantisTask t3 = Mockito.mock(MantisTask.class); 
+		Mockito.when(t3.getPayer()).thenReturn("Fuji"); 
+		
+		List<MantisTask> tasks = ImmutableList.of(t1, t2, t3); 
+		
+		System.out.println(Session.sumTasks(tasks)); 
+		
+	}
+	
+	
 }

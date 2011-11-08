@@ -12,6 +12,8 @@ import com.google.appengine.repackaged.com.google.common.base.Predicate;
 import com.google.appengine.repackaged.com.google.common.collect.Collections2;
 import com.google.appengine.repackaged.com.google.common.collect.Lists;
 
+import fj.F2;
+
 /**
  * Container with some service functionality for the front end that encapsulates
  * all stuff that is constantly stored for one users' session. 
@@ -101,6 +103,23 @@ public class Session implements Serializable
 		}
 		
 		return toOutputFormat(sum); 
+	}
+	
+	public static double sumTasks(final List<MantisTask> tasks)
+	{
+
+		F2<Double, MantisTask, Double> f2 = new F2< Double, MantisTask, Double>() 
+		{
+			@Override
+			public Double f(Double d, MantisTask m2) {
+				return d + m2.getEffort(); 
+			}
+		};
+		
+		fj.data.Array<MantisTask> taskarray = fj.data.Array.array(tasks.toArray(new MantisTask[]{})); 
+		return taskarray.foldLeft(f2, 0.0); 
+		
+		//		fj.data.List<MantisTask> tasks = fj.data.List.list(this.currentTasks.toArray()); 
 	}
 
 	/**
