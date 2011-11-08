@@ -5,48 +5,97 @@
 <html>
 <head>
 
-<jsp:include page="jqueryui.jsp"></jsp:include>
+<jsp:include page="imports.jsp"></jsp:include>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>View tasks for kw ${param.week}</title>
 
-<link rel="stylesheet" type="text/css" href="styles.css">
+
 
 <style type="text/css">
 td {
 	text-align: center;
 	width: 100px;
 }
+
+#view-tasks .ui-widget {
+	font-size: 12px; 
+}
+
+.addbutton {
+	position: relative; 
+	float:left; 
+}
+
+.logoutbutton {
+	position: relative; 
+	left: 10px; 
+	float:left; 
+}
+
+
+
 </style>
 
 <script>
 	$(function() {
-		$("input:submit, a, button", ".demo").button();
-		$("a", ".demo").click(function() {
+		$("input:submit, a, button", ".addbutton").button();
+		$("a", ".addbutton").click(function() {
 			window.location = '/addTask.jsp';
 			return false;
 		});
 
-		$("input:submit, a, button", ".demo2").button();
-		$("a", ".demo2").click(function() {
+		$("input:submit, a, button", ".logoutbutton").button();
+		$("a", ".logoutbutton").click(function() {
 			window.location = '/logout';
 			return false;
 		});
 	});
+	
+	$(document).ready(function() {
+	var $dialog = $('<div></div>')
+		.html('This dialog will show every time!')
+		.dialog({
+			autoOpen: false,
+			title: 'Basic Dialog'
+		});
+
+	$('#opener').click(function() {
+		$dialog.dialog('open');
+		// prevent the default action, e.g., following a link
+		return false;
+	});
+	
+	<c:forEach items="${sessionScope.session.currentMoenigTasks}" var="task" varStatus="status">
+		$("#confirm_M_${status.count}").easyconfirm({locale: { title: 'Please confirm deletion of task '+${task.taskId}+' from db ...', button: ['Keep','Delete']}});
+		$("#confirm_M_${status.count}").click(function() {
+			window.location = '/deleteTask?id=${task.taskId}&week=${param.week}';
+		});
+	</c:forEach>		
+
+	<c:forEach items="${sessionScope.session.currentDirectTasks}" var="task" varStatus="status">
+		$("#confirm_D_${status.count}").easyconfirm({locale: { title: 'Please confirm deletion of task '+${task.taskId}+' from db ...', button: ['Keep','Delete']}});
+		$("#confirm_D_${status.count}").click(function() {
+			window.location = '/deleteTask?id=${task.taskId}&week=${param.week}';
+		});
+	</c:forEach>		
+	
+
+});
 </script>
 
 </head>
 
-<body>
-	<h1>Übersicht: KW ${param.week}</h1>
+<body id="view-tasks">
+	<h1>Uebersicht: KW ${param.week}</h1>
 
 	<c:choose>
 		<c:when test="${empty sessionScope.session.currentMoenigTasks}">
-			<h3>Bisher kein Grundrauschen für König Mönig in KW
+			<h3>Bisher kein Grundrauschen fuer Koenig Moenig in KW
 				${param.week} geplant.</h3>
 		</c:when>
 
 		<c:otherwise>
-			<h2>König Mönig Grundrauschen</h2>
+			<h2>Koenig Moenig Grundrauschen</h2>
 			<table border="0">
 				<tr>
 					<th>ID</th>
@@ -58,18 +107,26 @@ td {
 					<th></th>
 				</tr>
 				<c:forEach items="${sessionScope.session.currentMoenigTasks}"
-					var="task">
-					<tr class="isCorrect_">
+					var="task"
+					varStatus="status">
+					<c:choose>
+						<c:when test="${status.count%2==0}">
+							<tr class="odd">
+						</c:when>
+						<c:otherwise>
+							<tr class="even">
+						</c:otherwise>
+					</c:choose>
+					
 						<td>${task.taskId}</td>
 						<td>${task.description}</td>
 						<td>${task.effort}</td>
 						<td>${task.dateString}</td>
-						<td>MÖNIG</td>
+						<td>MOENIG</td>
 						<td><a
-							href="/updateTask?id=${task.taskId}&week=${param.week}">Ändern</a>
+							href="/updateTask?id=${task.taskId}&week=${param.week}">Aendern</a>
 						</td>
-						<td><a
-							href="/deleteTask?id=${task.taskId}&week=${param.week}">Löschen</a>
+						<td><a href="#" id="confirm_M_${status.count}">Loeschen?</a>
 						</td>
 					</tr>
 				</c:forEach>
@@ -86,7 +143,7 @@ td {
 
 	<c:choose>
 		<c:when test="${empty sessionScope.session.currentDirectTasks}">
-			<h3>Bisher kein Grundrauschen für die Direktkunden in KW
+			<h3>Bisher kein Grundrauschen fuer die Direktkunden in KW
 				${param.week} geplant.</h3>
 		</c:when>
 
@@ -103,18 +160,25 @@ td {
 					<th></th>
 				</tr>
 				<c:forEach items="${sessionScope.session.currentDirectTasks}"
-					var="task">
-					<tr class="isCorrect_">
+					var="task"
+					varStatus="status">
+					<c:choose>
+						<c:when test="${status.count%2==0}">
+							<tr class="odd">
+						</c:when>
+						<c:otherwise>
+							<tr class="even">
+						</c:otherwise>
+					</c:choose>
 						<td>${task.taskId}</td>
 						<td>${task.description}</td>
 						<td>${task.effort}</td>
 						<td>${task.dateString}</td>
 						<td>DIREKTKUNDEN</td>
 						<td><a
-							href="/updateTask?id=${task.taskId}&week=${param.week}">Ändern</a>
+							href="/updateTask?id=${task.taskId}&week=${param.week}">Aendern</a>
 						</td>
-						<td><a
-							href="/deleteTask?id=${task.taskId}&week=${param.week}">Löschen</a>
+						<td><a href="#" id="confirm_D_${status.count}">Loeschen?</a>
 						</td>
 					</tr>
 				</c:forEach>
@@ -126,13 +190,17 @@ td {
 		</c:otherwise>
 	</c:choose>
 	<br />
-
-	<div class="demo">
-		<a href="#">Task hinzufügen</a>
+	
+	<div class="floete"></div>
+	
+	<div class="addbutton">
+		<a href="#">Task hinzufuegen</a>
 	</div>
-	<div class="demo2">
+	<div class="logoutbutton">
 		<a href="#">Ausloggen</a>
 	</div>
-
+	<div class="clear"></div>
+	
+	
 </body>
 </html>
