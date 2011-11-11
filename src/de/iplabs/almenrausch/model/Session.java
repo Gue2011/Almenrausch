@@ -30,6 +30,8 @@ public class Session implements Serializable
 	/** All current mantis tasks. **/
 	private List<MantisTask> currentTasks;
 	
+	private Permission permission = Permission.ADMIN; 
+	
 	/**
 	 * Hidden constructor. 
 	 */
@@ -121,6 +123,14 @@ public class Session implements Serializable
 		
 		//		fj.data.List<MantisTask> tasks = fj.data.List.list(this.currentTasks.toArray()); 
 	}
+	
+	/**
+	 * @return True if user is an admin, false if not.
+	 */
+	public boolean isAdmin()
+	{
+		return (this.permission == Permission.ADMIN); 
+	}
 
 	/**
 	 * @return The sum of all Direkt-Tasks as a formatted string. 
@@ -164,4 +174,18 @@ public class Session implements Serializable
 		}
 		return session;
 	}
+	
+	/**
+	 * Create a session with visitor rights level (restricted to read only)
+	 * @param request The current session if there is already one, creates a new instance if not. 
+	 */
+	public static void createVisitorSession (final HttpServletRequest request)
+	{
+		if (request == null) throw new IllegalArgumentException("Argument request must not be null!"); 
+
+		final Session session = new Session(); 
+		session.permission = Permission.VISITOR; 
+		request.getSession().setAttribute("session", session); 
+	}
+	
 }

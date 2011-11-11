@@ -24,15 +24,7 @@ public class Router
 	 */
 	public static void goToViewTasks(final HttpServletRequest req, final HttpServletResponse resp) throws IOException
 	{
-		final RequestDispatcher dispatcher = req.getRequestDispatcher("/viewTasks.jsp"); 
-		try 
-		{
-			dispatcher.forward(req, resp);
-		} 
-		catch (ServletException e) 
-		{
-			throw new IllegalStateException("Could not forward request to showTasks.jsp", e); 
-		} 
+		forward(req, resp, "/viewTasks.jsp"); 
 	}
 	
 	/**
@@ -45,5 +37,27 @@ public class Router
 	public static void redirect(final HttpServletResponse resp, final String target) throws IOException
 	{
 		resp.sendRedirect(target);
+	}
+	
+	/**
+	 * Forward to the any view. 
+	 * 
+	 * @param req The request
+	 * @param resp The response
+	 * @param target The target
+	 * 
+	 * @throws IOException Is thrown if exceptional things happens. 
+	 */
+	public static void forward (final HttpServletRequest req, final HttpServletResponse resp, final String target) throws IOException
+	{
+		RequestDispatcher dispatcher = req.getRequestDispatcher(target); 
+		try 
+		{
+			dispatcher.forward(req, resp);
+		} 
+		catch (ServletException e) 
+		{
+			throw new IllegalStateException("Could not forward request to "+target, e); 
+		} 
 	}
 }

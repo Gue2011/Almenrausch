@@ -32,7 +32,7 @@
 
 <body id="login">
 	<h1>Login um einzutreten:</h1>
-	<form action="login">
+	<form action="login" method="post">
 		<p>
 			Passwort:<br>
 			<input name="pw" type="password" size="12" maxlength="12">

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import de.iplabs.almenrausch.model.Session;
 import de.iplabs.almenrausch.web.Router;
 
 /**
@@ -22,8 +23,7 @@ public class LoginServlet extends HttpServlet
 	// A logger for this class. 
 	Logger log = Logger.getLogger(LoginServlet.class.getName());
 
-	@SuppressWarnings("unused")
-	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException 
+	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException 
 	{
 		final String login = req.getParameter("pw"); 
 		

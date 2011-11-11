@@ -123,11 +123,14 @@ td {
 						<td>${task.effort}</td>
 						<td>${task.dateString}</td>
 						<td>MOENIG</td>
-						<td><a
-							href="/updateTask?id=${task.taskId}&week=${param.week}">Aendern</a>
-						</td>
-						<td><a href="#" id="confirm_M_${status.count}">Loeschen?</a>
-						</td>
+						
+						<c:if test="{sessionScope.session.admin}">
+							<td><a
+								href="/updateTask?id=${task.taskId}&week=${param.week}">Aendern</a>
+							</td>
+							<td><a href="#" id="confirm_M_${status.count}">Loeschen?</a>
+							</td>
+						</c:if>
 					</tr>
 				</c:forEach>
 				<tr>
@@ -175,11 +178,13 @@ td {
 						<td>${task.effort}</td>
 						<td>${task.dateString}</td>
 						<td>DIREKTKUNDEN</td>
-						<td><a
-							href="/updateTask?id=${task.taskId}&week=${param.week}">Aendern</a>
-						</td>
-						<td><a href="#" id="confirm_D_${status.count}">Loeschen?</a>
-						</td>
+						<c:if test="{sessionScope.session.admin}">
+							<td><a
+								href="/updateTask?id=${task.taskId}&week=${param.week}">Aendern</a>
+							</td>
+							<td><a href="#" id="confirm_D_${status.count}">Loeschen?</a>
+							</td>
+						</c:if>
 					</tr>
 				</c:forEach>
 				<tr>
@@ -192,10 +197,9 @@ td {
 	<br />
 	
 	<div class="floete"></div>
-	
-	<div class="addbutton">
-		<a href="#">Task hinzufuegen</a>
-	</div>
+		<div class="addbutton">
+			<a href="#">Task hinzufuegen</a>
+		</div>
 	<div class="logoutbutton">
 		<a href="#">Ausloggen</a>
 	</div>

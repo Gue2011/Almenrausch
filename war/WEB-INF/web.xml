@@ -53,6 +53,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/viewTasks</url-pattern>
 	</servlet-mapping>
 	<servlet>
+		<servlet-name>LookupTaskServlet</servlet-name>
+		<servlet-class>de.iplabs.almenrausch.LookupTaskServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LookupTaskServlet</servlet-name>
+		<url-pattern>/lookupTask</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>LogoutServlet</servlet-name>
 		<servlet-class>de.iplabs.almenrausch.LogoutServlet</servlet-class>
 	</servlet>
