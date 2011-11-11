@@ -78,7 +78,7 @@
   </head>
 
   <body id="add-task" >
-   	<div class="content">
+   	<div id="content">
     <h1>Task hinzufuegen!</h1>
 	
 	<form action="addTask" id="task-form">

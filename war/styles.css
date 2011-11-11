@@ -31,3 +31,18 @@ h3 { font-size:15px; }
 td {
 	padding: 7px; 	
 }
+
+#content{
+	background: #FAF8F2; 
+	border: 1px solid #585858; 
+	padding: 10px 10px 30px 10px; 
+	position: relative;
+	margin-top: 20px; 
+	
+}
+
+.sum {
+	background: #FF7F50; 
+	color: #FFF; 
+	font-weight: bold; 
+}

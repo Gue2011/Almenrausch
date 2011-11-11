@@ -33,7 +33,6 @@ td {
 }
 
 
-
 </style>
 
 <script>
@@ -65,6 +64,7 @@ td {
 		return false;
 	});
 	
+	
 	<c:forEach items="${sessionScope.session.currentMoenigTasks}" var="task" varStatus="status">
 		$("#confirm_M_${status.count}").easyconfirm({locale: { title: 'Please confirm deletion of task '+${task.taskId}+' from db ...', button: ['Keep','Delete']}});
 		$("#confirm_M_${status.count}").click(function() {
@@ -86,124 +86,124 @@ td {
 </head>
 
 <body id="view-tasks">
-	<h1>Uebersicht: KW ${param.week}</h1>
 
-	<c:choose>
-		<c:when test="${empty sessionScope.session.currentMoenigTasks}">
-			<h3>Bisher kein Grundrauschen fuer Koenig Moenig in KW
-				${param.week} geplant.</h3>
-		</c:when>
-
-		<c:otherwise>
-			<h2>Koenig Moenig Grundrauschen</h2>
-			<table border="0">
-				<tr>
-					<th>ID</th>
-					<th width="500">Descripton</th>
-					<th>Aufwand</th>
-					<th>Date</th>
-					<th width="200">Kostenstelle</th>
-					<th></th>
-					<th></th>
-				</tr>
-				<c:forEach items="${sessionScope.session.currentMoenigTasks}"
-					var="task"
-					varStatus="status">
-					<c:choose>
-						<c:when test="${status.count%2==0}">
-							<tr class="odd">
-						</c:when>
-						<c:otherwise>
-							<tr class="even">
-						</c:otherwise>
-					</c:choose>
-					
-						<td>${task.taskId}</td>
-						<td>${task.description}</td>
-						<td>${task.effort}</td>
-						<td>${task.dateString}</td>
-						<td>MOENIG</td>
+	<div id="content">
+		<h1>Uebersicht: KW ${param.week}</h1>
+	
+		<c:choose>
+			<c:when test="${empty sessionScope.session.currentMoenigTasks}">
+				<h3>Bisher kein Grundrauschen fuer Koenig Moenig in KW
+					${param.week} geplant.</h3>
+			</c:when>
+	
+			<c:otherwise>
+				<h2>Koenig Moenig Grundrauschen</h2>
+				<table border="0">
+					<tr>
+						<th>ID</th>
+						<th width="500">Descripton</th>
+						<th>Aufwand</th>
+						<th>Date</th>
+						<th width="200">Kostenstelle</th>
+						<th></th>
+						<th></th>
+					</tr>
+					<c:forEach items="${sessionScope.session.currentMoenigTasks}"
+						var="task"
+						varStatus="status">
+						<c:choose>
+							<c:when test="${status.count%2==0}">
+								<tr class="odd">
+							</c:when>
+							<c:otherwise>
+								<tr class="even">
+							</c:otherwise>
+						</c:choose>
 						
-						<c:if test="{sessionScope.session.admin}">
+							<td>${task.taskId}</td>
+							<td>${task.description}</td>
+							<td>${task.effort}</td>
+							<td>${task.dateString}</td>
+							<td>MOENIG</td>
+							
 							<td><a
 								href="/updateTask?id=${task.taskId}&week=${param.week}">Aendern</a>
 							</td>
 							<td><a href="#" id="confirm_M_${status.count}">Loeschen?</a>
 							</td>
-						</c:if>
+						</tr>
+					</c:forEach>
+					<tr class="sum">
+						<td colspan="5">SUMME</td>
+						<td colspan="2">${sessionScope.session.sumOfMoenigTasks}</td>
+					<tr>
+				</table>
+			</c:otherwise>
+		</c:choose>
+	
+		<br />
+	
+	
+		<c:choose>
+			<c:when test="${empty sessionScope.session.currentDirectTasks}">
+				<h3>Bisher kein Grundrauschen fuer die Direktkunden in KW
+					${param.week} geplant.</h3>
+			</c:when>
+	
+			<c:otherwise>
+				<h2>Direktkunden Grundrauschen</h2>
+				<table border="0">
+					<tr>
+						<th>ID</th>
+						<th width="300">Descripton</th>
+						<th>Aufwand</th>
+						<th>Date</th>
+						<th width="200">Kostenstelle</th>
+						<th></th>
+						<th></th>
 					</tr>
-				</c:forEach>
-				<tr>
-					<td colspan="5">Summe</td>
-					<td colspan="2">${sessionScope.session.sumOfMoenigTasks}</td>
-				<tr>
-			</table>
-		</c:otherwise>
-	</c:choose>
-
-	<br />
-
-
-	<c:choose>
-		<c:when test="${empty sessionScope.session.currentDirectTasks}">
-			<h3>Bisher kein Grundrauschen fuer die Direktkunden in KW
-				${param.week} geplant.</h3>
-		</c:when>
-
-		<c:otherwise>
-			<h2>Direktkunden Grundrauschen</h2>
-			<table border="0">
-				<tr>
-					<th>ID</th>
-					<th width="300">Descripton</th>
-					<th>Aufwand</th>
-					<th>Date</th>
-					<th width="200">Kostenstelle</th>
-					<th></th>
-					<th></th>
-				</tr>
-				<c:forEach items="${sessionScope.session.currentDirectTasks}"
-					var="task"
-					varStatus="status">
-					<c:choose>
-						<c:when test="${status.count%2==0}">
-							<tr class="odd">
-						</c:when>
-						<c:otherwise>
-							<tr class="even">
-						</c:otherwise>
-					</c:choose>
-						<td>${task.taskId}</td>
-						<td>${task.description}</td>
-						<td>${task.effort}</td>
-						<td>${task.dateString}</td>
-						<td>DIREKTKUNDEN</td>
-						<c:if test="{sessionScope.session.admin}">
+					<c:forEach items="${sessionScope.session.currentDirectTasks}"
+						var="task"
+						varStatus="status">
+						<c:choose>
+							<c:when test="${status.count%2==0}">
+								<tr class="odd">
+							</c:when>
+							<c:otherwise>
+								<tr class="even">
+							</c:otherwise>
+						</c:choose>
+							<td>${task.taskId}</td>
+							<td>${task.description}</td>
+							<td>${task.effort}</td>
+							<td>${task.dateString}</td>
+							<td>DIREKTKUNDEN</td>
 							<td><a
 								href="/updateTask?id=${task.taskId}&week=${param.week}">Aendern</a>
 							</td>
 							<td><a href="#" id="confirm_D_${status.count}">Loeschen?</a>
 							</td>
-						</c:if>
-					</tr>
-				</c:forEach>
-				<tr>
-					<td colspan="5">Summe</td>
-					<td colspan="2">${sessionScope.session.sumOfDirectTasks}</td>
-				<tr>
-			</table>
-		</c:otherwise>
-	</c:choose>
-	<br />
-	
-	<div class="floete"></div>
-		<div class="addbutton">
-			<a href="#">Task hinzufuegen</a>
+						</tr>
+					</c:forEach>
+					<tr class="sum">
+						<td colspan="5">SUMME</td>
+						<td colspan="2">${sessionScope.session.sumOfDirectTasks}</td>
+					<tr>
+				</table>
+			</c:otherwise>
+		</c:choose>
+		<br />
+		
+		<div class="floete"></div>
+			<div class="addbutton">
+				<a href="#">Task hinzufuegen</a>
+			</div>
+		<div class="logoutbutton">
+			<a href="#">Ausloggen</a>
 		</div>
-	<div class="logoutbutton">
-		<a href="#">Ausloggen</a>
+		<div class="clear"></div>
+		
 	</div>
-	<div class="clear"></div>
 	
 	
 </body>

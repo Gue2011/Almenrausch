@@ -51,30 +51,30 @@
   </head>
 
   <body id="update-task">
-    <h1>Task hinzufügen!</h1>
-    
-   <form action="updateTaskSubmit">
-	  <input name="id" type="hidden" value="<%= request.getAttribute("id") %>">
-	  <p>ID:<br><input name="nid" type="text" size="6" maxlength="6" value="<%= request.getAttribute("id") %>" disabled></p>
-	  <p>Beschreibung:<br><input name="description" type="text" size="30" maxlength="40" value="<%= request.getAttribute("description") %>"></p>
-	  <p>Aufwand:<br><input name="effort" type="text" size="10" maxlength="10" value="<%= request.getAttribute("effort") %>"> Stunden</p>
-	  <p>Datum:<br><input name="date" type="date" size="20" maxlength="20" value="<%= request.getAttribute("date") %>"></p>
-	  <p><SELECT NAME="payer" value="<%= request.getAttribute("payer") %>">
-		<OPTION VALUE="Fuji">Fuji</OPTION>
-		<OPTION VALUE="Direkt">Direkt</OPTION>
-		</SELECT></p>
-	</form>
-	
-	<div class="floete"></div>
-	<div class="savebutton">
-		<a href="#">Speichern</a>
-	</div>
-	<div class="backbutton">
-		<a href="#">Abbrechen</a>
-	</div>
-	<div class="clear"></div>
-	</div>
-    </body>
-	
+  	<div id="content">
+	    <h1>Task Aendern!</h1>
+	    
+	   <form action="updateTaskSubmit">
+		  <input name="id" type="hidden" value="<%= request.getAttribute("id") %>">
+		  <p>ID:<br><input name="nid" type="text" size="6" maxlength="6" value="<%= request.getAttribute("id") %>" disabled></p>
+		  <p>Beschreibung:<br><input name="description" type="text" size="30" maxlength="40" value="<%= request.getAttribute("description") %>"></p>
+		  <p>Aufwand:<br><input name="effort" type="text" size="10" maxlength="10" value="<%= request.getAttribute("effort") %>"> Stunden</p>
+		  <p>Datum:<br><input name="date" type="date" size="20" maxlength="20" value="<%= request.getAttribute("date") %>"></p>
+		  <p><SELECT NAME="payer" value="<%= request.getAttribute("payer") %>">
+			<OPTION VALUE="Fuji">Fuji</OPTION>
+			<OPTION VALUE="Direkt">Direkt</OPTION>
+			</SELECT></p>
+		</form>
+		
+		<div class="floete"></div>
+		<div class="savebutton">
+			<a href="#">Speichern</a>
+		</div>
+		<div class="backbutton">
+			<a href="#">Abbrechen</a>
+		</div>
+		<div class="clear"></div>
+		</div>
+   </div>
     </body>
 </html>

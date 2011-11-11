@@ -7,9 +7,11 @@
 <title>Error!</title>
 </head>
 <body>
-	<br>
-	<h2>Sorry, We could not handle your request!</h2>
-	<br>
-	<strong>Cause: ${pageContext.exception.message}</strong>
+	<div id="content">
+		<br>
+		<h2>Sorry, We could not handle your request!</h2>
+		<br>
+		<strong>Cause: ${pageContext.exception.message}</strong>
+	</div>
 </body>
 </html>
