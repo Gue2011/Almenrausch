@@ -31,17 +31,18 @@
 </head>
 
 <body id="login">
-	<h1>Login um einzutreten:</h1>
-	<form action="login" method="post">
-		<p>
-			Passwort:<br>
-			<input name="pw" type="password" size="12" maxlength="12">
-		</p>
-	</form>
-
-	<div class="loginbutton">
-		<a href="#">Einloggen</a>
+	<div id="content">
+		<h1>Login um einzutreten:</h1>
+		<form action="login" method="post">
+			<p>
+				Passwort:<br>
+				<input name="pw" type="password" size="12" maxlength="12">
+			</p>
+		</form>
+	
+		<div class="loginbutton">
+			<a href="#">Einloggen</a>
+		</div>
 	</div>
-
 </body>
 </html>
