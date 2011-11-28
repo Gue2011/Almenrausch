@@ -6,11 +6,12 @@ import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
-import com.google.appengine.repackaged.com.google.common.base.Predicate;
 import com.google.appengine.repackaged.com.google.common.collect.Collections2;
 import com.google.appengine.repackaged.com.google.common.collect.Lists;
 
 import de.iplabs.almenrausch.model.MantisTask;
+import de.iplabs.almenrausch.model.timeunit.Month;
+import de.iplabs.almenrausch.model.timeunit.Week;
 
 public class TaskDao {
 	
@@ -59,7 +60,7 @@ public class TaskDao {
 		}
 	}
 	
-	public List<MantisTask> getTasksByCalendarWeek (final int week)
+	public List<MantisTask> getTasksByCalendarWeek (final Week week)
 	{
 		try 
 		{
@@ -69,14 +70,29 @@ public class TaskDao {
 			@SuppressWarnings("unchecked")
 			final List<MantisTask> tasks = (List<MantisTask>) this.pm.newQuery(query).execute();
 		
-			final Collection<MantisTask> tc = Collections2.filter(tasks, new Predicate<MantisTask>() 
-			{
-				@Override
-				public boolean apply(final MantisTask task) 
-				{
-					return week == task.getCalenderWeek();
-				}
-			}); 
+			final Collection<MantisTask> tc = Collections2.filter(tasks, week.isTaskInThisWeek()); 
+		
+			this.pm.detachCopyAll(tc); 
+			return Lists.newArrayList(tc); 
+		}
+		finally 
+		{
+			this.pm.flush(); 
+			this.pm.close(); 
+		}
+	}
+	
+	public List<MantisTask> getTasksByMonth (final Month month)
+	{
+		try 
+		{
+			final String query = "select from " + MantisTask.class.getName();
+			this.pm.refreshAll(); 
+
+			@SuppressWarnings("unchecked")
+			final List<MantisTask> tasks = (List<MantisTask>) this.pm.newQuery(query).execute();
+		
+			final Collection<MantisTask> tc = Collections2.filter(tasks, month.isTaskInThisMonth()); 
 		
 			this.pm.detachCopyAll(tc); 
 			return Lists.newArrayList(tc); 
@@ -123,4 +139,6 @@ public class TaskDao {
 			this.pm.close(); 
 		}
 	}
+	
+	
 }

@@ -52,7 +52,7 @@ public class LoginServlet extends HttpServlet
 		
 		log.info("Enter some password detection in production environments!"); 
 		// Add something like "somePassword".equals(login)
-		if (1 == 1)
+		if ("wenzel009".equals(login))
 		{
 			req.getSession().setAttribute("login", true); 
 			final GregorianCalendar gc = new GregorianCalendar(); 

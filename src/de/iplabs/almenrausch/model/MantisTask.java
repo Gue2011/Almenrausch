@@ -46,11 +46,17 @@ public class MantisTask
 	
 	public int getCalenderWeek()
 	{
-		GregorianCalendar gc = new GregorianCalendar(); 
+		final GregorianCalendar gc = new GregorianCalendar(); 
 		gc.setTime(this.date); 
 		return gc.get(GregorianCalendar.WEEK_OF_YEAR) - 1; 
 	}
 	
+	public int getMonth()
+	{
+		final GregorianCalendar gc = new GregorianCalendar(); 
+		gc.setTime(this.date); 
+		return gc.get(GregorianCalendar.MONTH) + 1; 
+	}
 
 	/**
 	 * @return the taskId

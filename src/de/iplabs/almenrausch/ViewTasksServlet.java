@@ -8,8 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import de.iplabs.almenrausch.model.Session;
+import com.sun.media.jai.codec.SeekableOutputStream;
+
 import de.iplabs.almenrausch.model.MantisTask;
+import de.iplabs.almenrausch.model.Session;
+import de.iplabs.almenrausch.model.timeunit.Month;
+import de.iplabs.almenrausch.model.timeunit.Week;
 import de.iplabs.almenrausch.persistent.TaskDao;
 import de.iplabs.almenrausch.web.Router;
 
@@ -31,14 +35,31 @@ public class ViewTasksServlet extends HttpServlet
 	public void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws IOException 
 	{
 		final String weekString = req.getParameter("week"); 
-		int week = weekString == null ? 0 : Integer.parseInt(weekString); 
+		final String monthString = req.getParameter("month"); 
 		
 		final TaskDao dao = new TaskDao(); 
-		final List<MantisTask> tasks = dao.getTasksByCalendarWeek(week); 
+
+		if (weekString != null)
+		{
+			final Week week = new Week (weekString == null ? 0 : Integer.parseInt(weekString)); 
+			
+			final List<MantisTask> tasks = dao.getTasksByCalendarWeek(week); 
+			
+			final Session session = Session.getCurrentSession(req); 
+			session.setCurrentTasks(tasks); 
+			
+			Router.goToViewTasks(req, resp); 
+			return; 
+		}
+		
+		final Month month = Month.getFromDate(monthString); 
+		final List<MantisTask> tasks = dao.getTasksByMonth(month);
 		
 		final Session session = Session.getCurrentSession(req); 
+		session.setMonth(month); 
 		session.setCurrentTasks(tasks); 
 		
 		Router.goToViewTasks(req, resp); 
+		
 	}
 }

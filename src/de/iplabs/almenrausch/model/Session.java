@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +14,7 @@ import com.google.appengine.repackaged.com.google.common.base.Predicate;
 import com.google.appengine.repackaged.com.google.common.collect.Collections2;
 import com.google.appengine.repackaged.com.google.common.collect.Lists;
 
-import fj.F2;
+import de.iplabs.almenrausch.model.timeunit.Month;
 
 /**
  * Container with some service functionality for the front end that encapsulates
@@ -31,6 +33,8 @@ public class Session implements Serializable
 	private List<MantisTask> currentTasks;
 	
 	private Permission permission = Permission.ADMIN; 
+	
+	private Month month; 
 	
 	/**
 	 * Hidden constructor. 
@@ -107,21 +111,26 @@ public class Session implements Serializable
 		return toOutputFormat(sum); 
 	}
 	
-	public static double sumTasks(final List<MantisTask> tasks)
+	
+	public List<String> getWeeksBefore()
 	{
-
-		F2<Double, MantisTask, Double> f2 = new F2< Double, MantisTask, Double>() 
-		{
-			@Override
-			public Double f(Double d, MantisTask m2) {
-				return d + m2.getEffort(); 
-			}
-		};
+		final GregorianCalendar gc = new GregorianCalendar(); 
+		gc.setTime(new Date()); 
 		
-		fj.data.Array<MantisTask> taskarray = fj.data.Array.array(tasks.toArray(new MantisTask[]{})); 
-		return taskarray.foldLeft(f2, 0.0); 
+		final List<String> weeksBefore = new ArrayList<String>(); 
+		for (int i = 1; i < 5; i ++) weeksBefore.add((gc.get(GregorianCalendar.WEEK_OF_YEAR) - i+"")); 
+		return weeksBefore; 
+	}
+	
+	
+	public List<String> getMonthBefore()
+	{
+		final GregorianCalendar gc = new GregorianCalendar(); 
+		gc.setTime(new Date()); 
 		
-		//		fj.data.List<MantisTask> tasks = fj.data.List.list(this.currentTasks.toArray()); 
+		final List<String> monthBefore = new ArrayList<String>(); 
+		for (int i = 0; i < 4; i ++) monthBefore.add((gc.get(GregorianCalendar.MONTH) + 1 - i+"")); 
+		return monthBefore; 
 	}
 	
 	/**
@@ -144,6 +153,18 @@ public class Session implements Serializable
 		}
 		
 		return toOutputFormat(sum); 
+	}
+	
+	public void setMonth (final Month month)
+	{
+		if (month == null) throw new IllegalArgumentException("Argument month must not be null!"); 
+		this.month = month; 
+	}
+	
+	public String getCurrentMonth()
+	{
+		if (this.month == null) throw new IllegalStateException("Currently no month in cache!"); 
+		return this.month.getName(); 
 	}
 	
 	/**

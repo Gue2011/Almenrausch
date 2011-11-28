@@ -32,6 +32,24 @@ td {
 	float:left; 
 }
 
+.week {
+	float:left; 
+	background: #9CCDE1; 
+	padding: 5px 15px 5px 15px; 
+	width: 15px; 
+	color: #000; 
+	margin-left: 5px; 
+	text-decoration: none; 
+}
+
+#weeks {
+	margin-bottom: 30px; 
+}
+
+#goto {
+	margin-bottom: 7px;
+	font-weight: bold; 
+}
 
 </style>
 
@@ -79,6 +97,7 @@ td {
 		});
 	</c:forEach>		
 	
+	$('.week').corner(); 
 
 });
 </script>
@@ -88,7 +107,43 @@ td {
 <body id="view-tasks">
 
 	<div id="content">
-		<h1>Uebersicht: KW ${param.week}</h1>
+		
+		<c:choose>
+			<c:when test="${empty param.month}">
+				<h1>Uebersicht: KW ${param.week}</h1>
+			</c:when>
+			<c:otherwise>
+				<h1>Uebersicht: Monat ${session.currentMonth}</h1>
+			</c:otherwise>
+		</c:choose>
+		
+		<div id="goto">
+		Gehe zu Woche:
+		</div> 
+		<div id="weeks">
+			<c:forEach items="${sessionScope.session.weeksBefore}"
+							var="week">
+				<a href="/viewTasks?week=${week}">
+					<div class="week">${week}</div>
+				</a>
+			</c:forEach>
+		</div>
+		<div class="floete"></div>
+		<br />
+		
+		<div id="goto">
+		Gehe zu Monat:
+		</div> 
+		<div id="weeks">
+			<c:forEach items="${sessionScope.session.monthBefore}"
+							var="month">
+				<a href="/viewTasks?month=${month}">
+					<div class="week">${month}</div>
+				</a>
+			</c:forEach>
+		</div>
+		<div class="floete"></div>
+		<br />
 	
 		<c:choose>
 			<c:when test="${empty sessionScope.session.currentMoenigTasks}">
