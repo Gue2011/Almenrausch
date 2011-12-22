@@ -56,17 +56,6 @@ public class GuiceServletConfig extends GuiceServletContextListener
 					log.info("Loading servlet: Routing '"+mapping+"' to class "+servletMappings.get(mapping).getSimpleName()); 
 					serve(mapping).with(servletMappings.get(mapping)); 
 				}
-				
-				
-//				serve("/viewTasks").with(ViewTasksServlet.class);
-//				serve("/addTask").with(AddTaskServlet.class);
-//				serve("/deleteTask").with(DeleteTaskServlet.class);
-//				serve("/login").with(LoginServlet.class);
-//				serve("/logout").with(LogoutServlet.class);
-//				serve("/lookupTask").with(LookupTaskServlet.class);
-//				serve("/updateTask").with(UpdateTaskServlet.class);
-//				serve("/updateTaskSubmit").with(UpdateTaskSubmitServlet.class);
-//				serve("/visit").with(EnterAsVisitorServlet.class);
 			}
 		}, 
 		new AbstractModule() 
