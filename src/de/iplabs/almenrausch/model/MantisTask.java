@@ -57,6 +57,13 @@ public class MantisTask
 		gc.setTime(this.date); 
 		return gc.get(GregorianCalendar.MONTH) + 1; 
 	}
+	
+	public int getYear()
+	{
+		final GregorianCalendar gc = new GregorianCalendar(); 
+		gc.setTime(this.date); 
+		return gc.get(GregorianCalendar.YEAR); 
+	}
 
 	/**
 	 * @return the taskId
@@ -82,7 +89,7 @@ public class MantisTask
 	}
 
 	/**
-	 * @param descritpion the descritpion to set
+	 * @param descritpion the description to set
 	 */
 	public void setDescritpion(String descritpion) {
 		this.description = descritpion;

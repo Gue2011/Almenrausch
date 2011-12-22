@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
 import de.iplabs.almenrausch.persistent.TaskDao;
 import de.iplabs.almenrausch.web.Router;
 
@@ -16,11 +19,26 @@ import de.iplabs.almenrausch.web.Router;
  * @author gue
  */
 @SuppressWarnings("serial")
+@Singleton
 public class DeleteTaskServlet extends HttpServlet 
 {
 	// A logger. 
 	private static final Logger log = Logger.getLogger(DeleteTaskServlet.class.getName());
 
+	/** The injected singleton instance of the TaskDao. **/
+	private final TaskDao taskDao; 
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param taskDao
+	 */
+	@Inject
+	public DeleteTaskServlet (final TaskDao taskDao)
+	{
+		this.taskDao = taskDao; 
+	}
+	
 	/**
 	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
@@ -35,8 +53,7 @@ public class DeleteTaskServlet extends HttpServlet
 		log.info("Id: " + req.getParameter("id"));
 		final Long taskId = Long.valueOf(id); ; 
 		
-		final TaskDao dao = new TaskDao(); 
-		final boolean result = dao.deleteTask(taskId); 
+		final boolean result = this.taskDao.deleteTask(taskId); 
 		
 		if (result) log.info("Task "+id+" has been deleted!"); 
 		else log.info("Could not find task "+id+" in DB!"); 

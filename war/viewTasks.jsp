@@ -8,7 +8,7 @@
 <jsp:include page="imports.jsp"></jsp:include>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>View tasks for kw ${param.week}</title>
-
+<meta charset="utf-8"> 
 
 
 <style type="text/css">
@@ -51,6 +51,10 @@ td {
 	font-weight: bold; 
 }
 
+#user-level {
+	margin-bottom: 7px; 
+}
+
 </style>
 
 <script>
@@ -66,6 +70,12 @@ td {
 			window.location = '/logout';
 			return false;
 		});
+		
+		$("input:submit, a, button", ".loginbutton").button();
+		$("a", ".loginbutton").click(function() {
+			window.location = '/';
+			return false;
+		});
 	});
 	
 	$(document).ready(function() {
@@ -75,6 +85,17 @@ td {
 			autoOpen: false,
 			title: 'Basic Dialog'
 		});
+	
+	
+	$(document).ready(function()
+	{
+		var mySections = $("tr").not("tr:first-child").hide();
+	 
+		mySections.each(function (i)
+		{
+			$(this).delay(i * 100).fadeIn(900);
+		});
+	});
 
 	$('#opener').click(function() {
 		$dialog.dialog('open');
@@ -102,6 +123,9 @@ td {
 });
 </script>
 
+
+<c:set var="admin">${sessionScope.session.admin}</c:set>
+
 </head>
 
 <body id="view-tasks">
@@ -110,13 +134,15 @@ td {
 		
 		<c:choose>
 			<c:when test="${empty param.month}">
-				<h1>Uebersicht: KW ${param.week}</h1>
+				<h1>Uebersicht: KW ${param.week}  (${session.currentYear})</h1>
 			</c:when>
 			<c:otherwise>
-				<h1>Uebersicht: Monat ${session.currentMonth}</h1>
+				<h1>Uebersicht: Monat ${session.currentMonth} (${session.currentYear})</h1>
 			</c:otherwise>
 		</c:choose>
-		
+		<div id="user-level">
+			Benutzerlevel: ${sessionScope.session.admin == false ? 'Besucher' : 'Administrator'}
+		</div>
 		<div id="goto">
 		Gehe zu Woche:
 		</div> 
@@ -148,12 +174,12 @@ td {
 		<c:choose>
 			<c:when test="${empty sessionScope.session.currentMoenigTasks}">
 				<h3>Bisher kein Grundrauschen fuer Koenig Moenig in KW
-					${param.week} geplant.</h3>
+					${param.week} (${session.currentYear}) geplant.</h3>
 			</c:when>
 	
 			<c:otherwise>
 				<h2>Koenig Moenig Grundrauschen</h2>
-				<table border="0">
+				<table border="0" id="moenig">
 					<tr>
 						<th>ID</th>
 						<th width="500">Descripton</th>
@@ -181,10 +207,24 @@ td {
 							<td>${task.dateString}</td>
 							<td>MOENIG</td>
 							
-							<td><a
-								href="/updateTask?id=${task.taskId}&week=${param.week}">Aendern</a>
+							<td>
+								<c:choose>
+									<c:when test="${admin}">
+										<a href="/updateTask?id=${task.taskId}&week=${param.week}">Aendern</a>
+									</c:when>
+									<c:otherwise>
+									</c:otherwise>
+								</c:choose>
+								
 							</td>
-							<td><a href="#" id="confirm_M_${status.count}">Loeschen?</a>
+							<td>
+								<c:choose>
+									<c:when test="${admin}">
+										<a href="#" id="confirm_M_${status.count}">Loeschen?</a>
+									</c:when>
+									<c:otherwise>
+									</c:otherwise>
+								</c:choose>
 							</td>
 						</tr>
 					</c:forEach>
@@ -202,7 +242,7 @@ td {
 		<c:choose>
 			<c:when test="${empty sessionScope.session.currentDirectTasks}">
 				<h3>Bisher kein Grundrauschen fuer die Direktkunden in KW
-					${param.week} geplant.</h3>
+					${param.week} (${session.currentYear}) geplant.</h3>
 			</c:when>
 	
 			<c:otherwise>
@@ -233,10 +273,24 @@ td {
 							<td>${task.effort}</td>
 							<td>${task.dateString}</td>
 							<td>DIREKTKUNDEN</td>
-							<td><a
-								href="/updateTask?id=${task.taskId}&week=${param.week}">Aendern</a>
+							<td>
+								<c:choose>
+									<c:when test="${admin}">
+										<a href="/updateTask?id=${task.taskId}&week=${param.week}">Aendern</a>
+									</c:when>
+									<c:otherwise>
+									</c:otherwise>
+								</c:choose>
+								
 							</td>
-							<td><a href="#" id="confirm_D_${status.count}">Loeschen?</a>
+							<td>
+								<c:choose>
+									<c:when test="${admin}">
+										<a href="#" id="confirm_D_${status.count}">Loeschen?</a>
+									</c:when>
+									<c:otherwise>
+									</c:otherwise>
+								</c:choose>
 							</td>
 						</tr>
 					</c:forEach>
@@ -248,18 +302,25 @@ td {
 			</c:otherwise>
 		</c:choose>
 		<br />
-		
-		<div class="floete"></div>
-			<div class="addbutton">
-				<a href="#">Task hinzufuegen</a>
-			</div>
-		<div class="logoutbutton">
-			<a href="#">Ausloggen</a>
-		</div>
-		<div class="clear"></div>
+		<c:choose>
+			<c:when test="${admin}">
+				<div class="floete"></div>
+				<div class="addbutton">
+					<a href="#">Task hinzufuegen</a>
+				</div>
+				<div class="logoutbutton">
+					<a href="#">Ausloggen</a>
+				</div>
+				<div class="clear"></div>
+			</c:when>
+			<c:otherwise>
+				<div class="loginbutton">
+					<a href="#">Einloggen?</a>
+				</div>
+			</c:otherwise>
+		</c:choose>
 		
 	</div>
-	
 	
 </body>
 </html>

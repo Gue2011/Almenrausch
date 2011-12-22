@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
 import de.iplabs.almenrausch.model.MantisTask;
 import de.iplabs.almenrausch.persistent.TaskDao;
 import de.iplabs.almenrausch.web.Router;
@@ -20,16 +23,32 @@ import de.iplabs.almenrausch.web.Router;
  * @author Gue
  */
 @SuppressWarnings("serial")
+@Singleton
 public class AddTaskServlet extends HttpServlet 
 {
 	// Logger
 	Logger log = Logger.getLogger(AddTaskServlet.class.getName());
 
+	/** The injected singleton instance of the TaskDao. **/
+	private final TaskDao taskDao; 
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param taskDao
+	 */
+	@Inject
+	public AddTaskServlet (final TaskDao taskDao)
+	{
+		this.taskDao = taskDao; 
+	}
+	
 	/*
 	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException 
 	{
+		req.setCharacterEncoding("US-ASCII"); 
 		final String eff = req.getParameter("effort").replace(',', '.');
 		
 		log.info("Date: " + req.getParameter("date"));
@@ -46,7 +65,7 @@ public class AddTaskServlet extends HttpServlet
 		Date date; 
 		try 
 		{
-			SimpleDateFormat sdfToDate = new SimpleDateFormat(
+			final SimpleDateFormat sdfToDate = new SimpleDateFormat(
 					"yyyy-MM-dd");
 			date = sdfToDate.parse(req.getParameter("date"));
 		} 
@@ -56,12 +75,12 @@ public class AddTaskServlet extends HttpServlet
 		}
 
 		final MantisTask task = new MantisTask(id, date, description, effort, payer); 
-		final TaskDao dao = new TaskDao(); 
 		log.info("Saving task"); 
-		dao.save(task); 
+		this.taskDao.save(task); 
 		
 		final int kw = task.getCalenderWeek(); 
+		final int year = task.getYear(); 
 
-		Router.redirect(resp, "/viewTasks?week="+kw); 
+		Router.redirect(resp, "/viewTasks?week="+kw+"&year="+year); 
 	}
 }

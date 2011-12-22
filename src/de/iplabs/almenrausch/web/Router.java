@@ -24,6 +24,7 @@ public class Router
 	 */
 	public static void goToViewTasks(final HttpServletRequest req, final HttpServletResponse resp) throws IOException
 	{
+		resp.setContentType("text/html; charset=utf-8");
 		forward(req, resp, "/viewTasks.jsp"); 
 	}
 	

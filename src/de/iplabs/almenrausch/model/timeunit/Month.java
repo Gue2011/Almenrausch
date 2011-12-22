@@ -73,7 +73,7 @@ public enum Month
 		throw new IllegalStateException("A month with that date number "+date+" does not exist!"); 
 	}
 	
-	public Predicate<MantisTask> isTaskInThisMonth() 
+	public Predicate<MantisTask> isTaskInThisMonth(final Year year) 
 	{
 		if (this.monthPreditcate == null)
 		{
@@ -82,7 +82,7 @@ public enum Month
 				@Override
 				public boolean apply(final MantisTask task) 
 				{
-					return task.getMonth() == date; 
+					return task.getMonth() == date && task.getYear() == year.asInt(); 
 				}
 			};
 		}

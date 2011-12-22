@@ -16,7 +16,7 @@ public class Week
 	
 	public Week (final int calendarweek)
 	{
-		if (calendarweek < 1) throw new IllegalArgumentException("Argument calendarweek cannnot be less than 1"); 
+		if (calendarweek < 0) throw new IllegalArgumentException("Argument calendarweek cannnot be less than 1"); 
 		if (calendarweek > 52) throw new IllegalArgumentException("Argument calendarweek cannnot be greater than 52"); 
 		
 		this.calendarweek = calendarweek; 
@@ -28,14 +28,14 @@ public class Week
 		this.calendarweek = Integer.valueOf(calendarweek); 
 	}
 	
-	public Predicate<MantisTask> isTaskInThisWeek() 
+	public Predicate<MantisTask> isTaskInThisWeek(final Year year) 
 	{
 		return new Predicate<MantisTask>() 
 		{
 			@Override
 			public boolean apply(final MantisTask task) 
 			{
-				return task.getCalenderWeek() == calendarweek; 
+				return task.getCalenderWeek() == calendarweek && task.getYear() == year.asInt(); 
 			}
 		};
 	}

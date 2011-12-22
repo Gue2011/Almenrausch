@@ -25,6 +25,13 @@
 			document.forms[0].submit();
 			return false;
 		});
+		
+		$("input:submit, a, button", ".visitbutton").button();
+		$("a", ".visitbutton").click(function() {
+			window.location = '/visit';
+			return false;
+		});
+		
 	});
 	</script>
 
@@ -43,6 +50,12 @@
 		<div class="loginbutton">
 			<a href="#">Einloggen</a>
 		</div>
+
+		<div class="visitbutton">
+			<a href="#">Als Besucher eintreten</a>
+		</div>
+
 	</div>
+	
 </body>
 </html>

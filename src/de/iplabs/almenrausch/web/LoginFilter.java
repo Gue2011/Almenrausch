@@ -10,6 +10,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import de.iplabs.almenrausch.model.Permission;
+import de.iplabs.almenrausch.model.Session;
+
 /**
  * Checks out if user is logged in. Application allowed any action but the proper 
  * login only for people who know the password. 
@@ -40,11 +43,17 @@ public class LoginFilter implements Filter
 		}
 		
 		final Object login = req.getSession().getAttribute("login"); 
-		if (!req.getRequestURI().contains("login") && login == null)
-			throw new IllegalStateException("Unallowed visitor! Please log in to authentify!"); 
-		
-		if (!req.getRequestURI().contains("login") && (Boolean)login == false)
-			throw new IllegalStateException("Unallowed visitor! Please log in to authentify!"); 
+		if (!req.getRequestURI().contains("login") && login == null || 
+				!req.getRequestURI().contains("login") && (Boolean)login == false)
+		{
+			throw new IllegalStateException("No privileges for entry found!"); 
+			// Session.createAlmenrauschSession(req, Permission.VISITOR); 
+			
+//			if (req.getRequestURI().contains("delete") || req.getRequestURI().contains("update"))
+//			{
+//				throw new IllegalStateException("Visitors are not allowed to delete or update!"); 	
+//			}
+		}
 		
 		chain.doFilter(request, response); 
 	}

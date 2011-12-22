@@ -81,7 +81,7 @@
    	<div id="content">
     <h1>Task hinzufuegen!</h1>
 	
-	<form action="addTask" id="task-form">
+	<form action="addTask" id="task-form" accept-charset="UTF-8">
 	  <p>ID:<br><input name="id" type="text" size="6" maxlength="6"></p>
 	  <p>Beschreibung:<br><textarea id="description" name="description" type="text" maxlength="200"></textarea></p>
 	  <p>Aufwand:<br><input name="effort" type="text" size="10" maxlength="10"> Stunden</p>

@@ -4,70 +4,21 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
-	<servlet>
-		<servlet-name>LoginServlet</servlet-name>
-		<servlet-class>de.iplabs.almenrausch.LoginServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>LoginServlet</servlet-name>
-		<url-pattern>/login</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>AddTaskServlet</servlet-name>
-		<servlet-class>de.iplabs.almenrausch.AddTaskServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>AddTaskServlet</servlet-name>
-		<url-pattern>/addTask</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>DeleteTaskServlet</servlet-name>
-		<servlet-class>de.iplabs.almenrausch.DeleteTaskServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>DeleteTaskServlet</servlet-name>
-		<url-pattern>/deleteTask</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>UpdateTaskServlet</servlet-name>
-		<servlet-class>de.iplabs.almenrausch.UpdateTaskServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>UpdateTaskServlet</servlet-name>
-		<url-pattern>/updateTask</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>UpdateTaskSubmitServlet</servlet-name>
-		<servlet-class>de.iplabs.almenrausch.UpdateTaskSubmitServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>UpdateTaskSubmitServlet</servlet-name>
-		<url-pattern>/updateTaskSubmit</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>ViewTasksServlet</servlet-name>
-		<servlet-class>de.iplabs.almenrausch.ViewTasksServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ViewTasksServlet</servlet-name>
-		<url-pattern>/viewTasks</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>LookupTaskServlet</servlet-name>
-		<servlet-class>de.iplabs.almenrausch.LookupTaskServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>LookupTaskServlet</servlet-name>
-		<url-pattern>/lookupTask</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>LogoutServlet</servlet-name>
-		<servlet-class>de.iplabs.almenrausch.LogoutServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>LogoutServlet</servlet-name>
-		<url-pattern>/logout</url-pattern>
-	</servlet-mapping>
+	
+	<listener>
+	  <listener-class>de.iplabs.almenrausch.GuiceServletConfig</listener-class>
+	</listener>
+	
+	<filter>
+	    <filter-name>guiceFilter</filter-name>
+	    <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
+	</filter>
+
+  	<filter-mapping>
+    	<filter-name>guiceFilter</filter-name>
+    	<url-pattern>/*</url-pattern>
+  	</filter-mapping>
+
 	<filter>
 		<filter-name>ChromeFilter</filter-name>
 		<filter-class>de.iplabs.almenrausch.web.ChromeFilter</filter-class>
