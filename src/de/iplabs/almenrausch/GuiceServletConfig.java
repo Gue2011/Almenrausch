@@ -22,8 +22,12 @@ import de.iplabs.almenrausch.persistent.TaskDao;
  */
 public class GuiceServletConfig extends GuiceServletContextListener
 {
+	/** A logger. **/
 	private final static Logger log = Logger.getLogger(GuiceServletConfig.class.getName()); 
 	
+	/**
+	 * The servlet mapping of this application.
+	 */
 	private static Map<String, Class<? extends HttpServlet>> servletMappings = new HashMap<String, Class<? extends HttpServlet>>(); 
 	
 	static 
@@ -37,7 +41,6 @@ public class GuiceServletConfig extends GuiceServletContextListener
 		servletMappings.put("/updateTask", 			UpdateTaskServlet.class); 
 		servletMappings.put("/updateTaskSubmit", 	UpdateTaskSubmitServlet.class); 
 		servletMappings.put("/visit", 				EnterAsVisitorServlet.class); 
-		
 	}
 	
 	@Override
@@ -49,11 +52,9 @@ public class GuiceServletConfig extends GuiceServletContextListener
 			@Override
 			protected void configureServlets() 
 			{
-				System.out.println("Injecting ...");
-				
 				for (final String mapping : servletMappings.keySet())
 				{
-					log.info("Loading servlet: Routing '"+mapping+"' to class "+servletMappings.get(mapping).getSimpleName()); 
+					log.info("Injecting servlets: Routing '"+mapping+"' to class "+servletMappings.get(mapping).getSimpleName()); 
 					serve(mapping).with(servletMappings.get(mapping)); 
 				}
 			}
