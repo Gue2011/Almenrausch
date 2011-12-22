@@ -24,11 +24,17 @@ public enum Year
 		this.yearAsInt = yearAsInt; 
 	}
 	
+	/**
+	 * @return the year as an int-value. 
+	 */
 	public int asInt()
 	{
 		return this.yearAsInt; 
 	}
 	
+	/**
+	 * @return the current year as a {@link Year} object. 
+	 */
 	public static Year getCurrentYear()
 	{
 		final GregorianCalendar cal = new GregorianCalendar(); 

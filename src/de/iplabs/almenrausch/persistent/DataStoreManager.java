@@ -3,13 +3,26 @@ package de.iplabs.almenrausch.persistent;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManagerFactory;
 
-public class DataStoreManager {
+/**
+ * Service class to enter {@link PersistenceManagerFactory} in a singleton way. 
+ * 
+ * @author gue
+ */
+public class DataStoreManager 
+{
+	/** The factory managed by this class. **/
+	private static final PersistenceManagerFactory factory 
+					= JDOHelper.getPersistenceManagerFactory("transactions-optional"); 
 	
-	private static final PersistenceManagerFactory factory = JDOHelper.getPersistenceManagerFactory("transactions-optional"); 
-	
+	/** Hidden constructor. **/
 	private DataStoreManager() {}
 	
-	public static PersistenceManagerFactory get() {
+	/** 
+	 * Static access on singleton instance. 
+	 * @return A factory instance. 
+	 */
+	public static PersistenceManagerFactory get() 
+	{
 		return factory; 
 	}
 }

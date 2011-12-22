@@ -10,9 +10,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import de.iplabs.almenrausch.model.Permission;
-import de.iplabs.almenrausch.model.Session;
-
 /**
  * Checks out if user is logged in. Application allowed any action but the proper 
  * login only for people who know the password. 

@@ -1,5 +1,7 @@
 package de.iplabs.almenrausch.model.timeunit;
 
+import java.util.Collection;
+
 import com.google.appengine.repackaged.com.google.common.base.Predicate;
 
 import de.iplabs.almenrausch.model.MantisTask;
@@ -30,13 +32,21 @@ public enum Month
 	
 	DECEMBER ("Dezember", 12); 
 	
-	
+	/** The name of the month: **/
 	private final String name; 
 	
+	/** The months number as an int. **/
 	private final int date; 
 	
+	/** The cached month predicate. **/	
 	private Predicate<MantisTask> monthPreditcate; 
 	
+	/**
+	 * Constructor. 
+	 * 
+	 * @param name
+	 * @param date
+	 */
 	private Month (final String name, final int date)
 	{
 		this.name = name;
@@ -46,18 +56,23 @@ public enum Month
 	/**
 	 * @return the name
 	 */
-	public String getName() {
+	public String getName() 
+	{
 		return name;
 	}
 
 	/**
 	 * @return the date
 	 */
-	public int getDate() {
+	public int getDate() 
+	{
 		return date;
 	}
 	
-	
+	/**
+	 * @param date The date as a month string, e.g. '4' for April. 
+	 * @return The {@link Month} in a type safe representation. 
+	 */
 	public static Month getFromDate (final String date)
 	{
 		if (date == null) throw new IllegalArgumentException("Argument date must not be null!"); 
@@ -73,6 +88,12 @@ public enum Month
 		throw new IllegalStateException("A month with that date number "+date+" does not exist!"); 
 	}
 	
+	/**
+	 * A Predicate for {@link MantisTask}s in {@link Collection}s that finds these in this month and the given year. 
+	 * 
+	 * @param year The year in which the task was scheduled. 
+	 * @return A search {@link Predicate} for Tasks for month and yaer. 
+	 */
 	public Predicate<MantisTask> isTaskInThisMonth(final Year year) 
 	{
 		if (this.monthPreditcate == null)

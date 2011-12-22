@@ -15,6 +15,7 @@ import de.iplabs.almenrausch.web.Router;
 
 /**
  * Servlet that redirects directly to the vie Tasks page, entering as a visitor then. 
+ * TODO: Re-think this idea!
  * 
  * @author gue
  */
@@ -36,12 +37,18 @@ public class EnterAsVisitorServlet extends HttpServlet
 		this_week = gc.get(GregorianCalendar.WEEK_OF_YEAR) - 1; 
 	}
 
+	/**
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException 
 	{
 		Router.redirect(resp, "/viewTasks?week="+this_week); 
 		return; 
 	}
 	
+	/**
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException 
 	{
 		doPost(req, resp); 

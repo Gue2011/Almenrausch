@@ -1,7 +1,11 @@
 package de.iplabs.almenrausch.model;
 
-public enum Permission {
-	
+/** 
+ * The permission level on which the user is allowed to operate.  
+ * 
+ * @author gue
+ */
+public enum Permission 
+{
 	VISITOR, ADMIN; 
-
 }

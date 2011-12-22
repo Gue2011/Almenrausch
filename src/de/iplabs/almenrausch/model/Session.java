@@ -33,10 +33,13 @@ public class Session implements Serializable
 	/** All current mantis tasks. **/
 	private List<MantisTask> currentTasks;
 	
+	/** The users permission level. **/
 	private Permission permission = Permission.ADMIN; 
 	
+	/** The month (cached here). **/
 	private Month month; 
 	
+	/** The year (cached here). **/
 	private Year year; 
 	
 	/**
@@ -229,5 +232,4 @@ public class Session implements Serializable
 		session.permission = permission; 
 		request.getSession().setAttribute("session", session); 
 	}
-	
 }

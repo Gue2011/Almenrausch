@@ -43,6 +43,9 @@ public class GuiceServletConfig extends GuiceServletContextListener
 		servletMappings.put("/visit", 				EnterAsVisitorServlet.class); 
 	}
 	
+	/**
+	 * @see com.google.inject.servlet.GuiceServletContextListener#getInjector()
+	 */
 	@Override
 	protected Injector getInjector() 
 	{
