@@ -61,7 +61,7 @@ public class LoginServlet extends HttpServlet
 		
 		log.info("Enter some password detection in production environments!"); 
 		// Add something like "somePassword".equals(login)
-		if ("wenzel009".equals(login))
+		if ("xxx".equals(login))
 		{
 			Session.createAlmenrauschSession(req, Permission.ADMIN); 
 			req.getSession().setAttribute("login", true); 
